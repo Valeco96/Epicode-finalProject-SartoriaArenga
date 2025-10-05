@@ -2,7 +2,7 @@ import express from "express";
 
 const authRouter = express.Router();
 
-authRouter.get("/login", (request, response) => {
+authRouter.post("/login", (request, response) => {
   response.send("Login route attiva");
 });
 
