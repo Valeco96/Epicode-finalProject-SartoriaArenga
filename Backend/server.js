@@ -1,6 +1,7 @@
-import express from "express";
-import cors from "cors"; // permette di gestire il CORS (chiamate da FE su indirizzi diversi da quello del BE)
 import "dotenv/config"; // importa il contenuto del file env
+import cors from "cors"; // permette di gestire il CORS (chiamate da FE su indirizzi diversi da quello del BE)
+import express from "express";
+import mongoose from "mongoose";
 import authRouter from "./routes/auth.js";
 
 const port = process.env.PORT;
@@ -17,5 +18,10 @@ server.get("/username", (request, response) =>
 
 //rotta per l'autenticazione
 server.use("/api/auth", authRouter);
+
+await mongoose
+  .connect(process.env.MONGODB_CONNECTION_URI)
+  .then(() => console.log("Connesso al database."))
+  .catch((error) => console.log(error));
 
 server.listen(port, () => console.log(`Server avviato sulla porta ${port}`)); // il server é in ascolto di richieste alla porta indicata
