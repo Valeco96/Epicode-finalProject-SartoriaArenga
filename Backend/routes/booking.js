@@ -1,4 +1,5 @@
 import express from "express";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 const bookingRouter = express.Router();
 
@@ -8,9 +9,7 @@ bookingRouter.post("/", (request, response) => {
 }); // crea prenotazione (valida input, salva pending)
 
 //Rotte private
-bookingRouter.get("/", (request, response) => {
-  response.send("Booking route attiva");
-}); // lista prenotazioni (filtro per status, data, paginazione)
+bookingRouter.get("/", verifyToken); // lista prenotazioni (filtro per status, data, paginazione)
 bookingRouter.get("/:id", (request, response) => {
   response.send("Booking id route attiva");
 }); // dettaglio prenotazione

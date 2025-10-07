@@ -3,8 +3,8 @@ import cors from "cors"; // permette di gestire il CORS (chiamate da FE su indir
 import express from "express";
 import mongoose from "mongoose";
 import authRouter from "./routes/auth.js";
-import portfolioRouter from "./routes/portfolio.js";
 import bookingRouter from "./routes/booking.js";
+import portfolioRouter from "./routes/portfolio.js";
 
 const port = process.env.PORT;
 const server = express(); // creo il server base
