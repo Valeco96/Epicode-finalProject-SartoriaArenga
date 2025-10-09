@@ -13,7 +13,7 @@ export async function login(request, response, next) {
         .json({ message: "Email e password sono obbligatorie." });
     }
 
-    const userEmail = (await User.findOne({ email }));
+    const userEmail = await User.findOne({ email }).select(`+password`);
     if (!userEmail) {
       return response
         .status(401)
@@ -33,7 +33,7 @@ export async function login(request, response, next) {
 
     return response
       .status(200)
-      .json({ message: "Accesso effettuato con successo", token });
+      .json({ message: "Accesso effettuato con successo", token: token });
   } catch (error) {
     console.error("Errore nella sessione di accesso:", error.message);
     response.status(500).json({

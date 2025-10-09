@@ -6,7 +6,7 @@ export function generateJWT(payload) {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "30d" },
+      { expiresIn: process.env.JWT_EXPIRESIN },
       (error, token) => {
         if (error) {
           console.error("Errore nella generazione del token", error);
