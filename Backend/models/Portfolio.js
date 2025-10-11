@@ -6,15 +6,27 @@ const portfolioSchema = new Schema(
     description: {
       type: String,
     },
-    categories: { type: [String], required: true },
-    images: {
-      type: [
-        {
-          url: String,
-          public_id: String,
-        },
-      ],
+    categories: {
+      type: [String],
       required: true,
+      enum: [
+        "giacca",
+        "pantalone",
+        "completo",
+        "evento",
+        "matrimonio",
+        "stile",
+        "quotidiano",
+      ],
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    imagePublicId: {
+      //Id di Cloudinary per eventuale eliminazione
+      type: String,
+      default: null,
     },
     visible: { type: Boolean, default: true }, //per nascondere i lavori non pubblici
   },
