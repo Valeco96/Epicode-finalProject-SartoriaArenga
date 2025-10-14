@@ -14,23 +14,30 @@ const bookingSchema = new Schema(
       type: String,
       required: false,
       match: [/^[\d\s+()-]+$/, "Formato del numero non valido"],
-    },
-    validate: {
-      validator: function (value) {
-        //Rimuove tutti i simboli per contare solo le cifre
-        const digits = value.replace(/\D/g, "");
-        return digits.length >= 6 && digits.length <= 15;
+      validate: {
+        validator: function (value) {
+          //Rimuove tutti i simboli per contare solo le cifre
+          const digits = value.replace(/\D/g, "");
+          return digits.length >= 6 && digits.length <= 15;
+        },
+        message: "Il numero di telefono deve contenere tra 6 e 15 cifre.",
       },
-      message: "Il numero di telefono deve contenere tra 6 e 15 cifre.",
     },
     appointmentDate: {
       type: Date,
       required: true,
+      validate: {
+        validator: function (value) {
+          return value >= new Date();
+        },
+        message: "La data selezionata non può essere nel passato.",
+      },
     },
     service: { type: String, required: true },
+    notes: { type: String },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled"],
+      enum: ["pending", "confirmed", "completed", "cancelled"],
       default: "pending",
     },
   },
@@ -50,6 +57,7 @@ bookingSchema.pre("save", function (next) {
       this.phone = this.phone.replace(/\+/g, "");
     }
   }
+  next();
 });
 
 const Booking = model("Booking", bookingSchema);
