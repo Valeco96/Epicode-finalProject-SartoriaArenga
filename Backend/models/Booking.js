@@ -28,9 +28,20 @@ const bookingSchema = new Schema(
       required: true,
       validate: {
         validator: function (value) {
-          return value >= new Date();
+          const appointment = new Date(value);
+
+          // Dev’essere almeno 1 ora nel futuro
+          if (appointment.getTime() < now.getTime() + 60 * 60 * 1000)
+            return false;
+
+          // Controlla orario di apertura (es. 9:00 - 18:00)
+          const hour = appointment.getHours();
+          if (hour < 9 || hour >= 18) return false;
+
+          return true;
         },
-        message: "La data selezionata non può essere nel passato.",
+        message:
+          "La data dell'appuntamento deve essere almeno tra 1 ora e durante l'orario di apertura (09:00-18:00).",
       },
     },
     service: { type: String, required: true },

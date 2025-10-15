@@ -175,6 +175,24 @@ export async function updateBookingDate(request, response) {
         .status(400)
         .json({ message: "Data dell'appuntamento mancante." });
     }
+
+    const newDate = new Date(appointmentDate);
+    const now = new Date();
+
+    if (newDate < now) {
+      return response
+        .status(400)
+        .json({ message: "Non puoi impostare una data passata." });
+    }
+
+    const hour = newDate.getHours();
+    if (hour < 9 || hour >= 18) {
+      return response.status(400).json({
+        message:
+          "Gli appuntamenti sono disponibili solo tra le 09:00 e le 18:00.",
+      });
+    }
+
     const updateBooking = await Booking.findByIdAndUpdate(
       id,
       { appointmentDate },
@@ -186,12 +204,10 @@ export async function updateBookingDate(request, response) {
         .json({ message: "Prenotazione non trovata." });
     }
 
-    response
-      .status(200)
-      .json({
-        message: "Data dell'appuntamento aggiornata con successo!",
-        booking: updateBooking,
-      });
+    response.status(200).json({
+      message: "Data dell'appuntamento aggiornata con successo!",
+      booking: updateBooking,
+    });
   } catch (error) {
     console.error("Errore durante l'aggiiornamento della data:", error.message);
     response.status(500).json({
