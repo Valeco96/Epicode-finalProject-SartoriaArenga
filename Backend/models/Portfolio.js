@@ -6,18 +6,18 @@ const portfolioSchema = new Schema(
     description: {
       type: String,
     },
-    categories: {
+    category: {
       type: [String],
       required: true,
-      enum: [
-        "giacca",
-        "pantalone",
-        "completo",
-        "evento",
-        "matrimonio",
-        "stile",
-        "quotidiano",
-      ],
+      enum: ["giacca", "cappotto", "gilet", "smoking", "completo", "evento"],
+    },
+    color: {
+      type: [String],
+      enum: ["blu", "grigio", "nero"],
+    },
+    fabric: {
+      type: [String],
+      enum: ["cotone", "100% lana", "flanella"],
     },
     image: {
       type: String,

@@ -36,12 +36,22 @@ export async function getAllPieces(request, response) {
 
 export async function createPiece(request, response) {
   try {
-    const { title, description, categories, image, imagePublicId, visible } =
-      request.body;
+    const {
+      title,
+      description,
+      category,
+      color,
+      fabric,
+      image,
+      imagePublicId,
+      visible,
+    } = request.body;
 
     const titolo = title;
     const descrizione = description;
-    const categorie = categories;
+    const categoria = category;
+    const colore = color;
+    const tessuto = fabric;
     const immagine = image;
     const cloudinaryId = imagePublicId;
     const visibile = visible;
@@ -56,7 +66,9 @@ export async function createPiece(request, response) {
     const newPiece = Portfolio({
       title: titolo,
       description: descrizione,
-      categories: categorie,
+      category: categoria,
+      color: colore,
+      fabric: tessuto,
       image: immagine,
       imagePublicId: cloudinaryId,
       visible: visibile,
@@ -68,7 +80,9 @@ export async function createPiece(request, response) {
     console.log({
       titolo,
       descrizione,
-      categorie,
+      categoria,
+      colore,
+      tessuto,
       immagine,
       cloudinaryId,
       visibile,
@@ -128,7 +142,9 @@ export async function editPiece(request, response) {
     const {
       title = "",
       description = "",
-      categories = [],
+      category = [],
+      color = [],
+      fabric = [],
       image = "",
       visible = true,
     } = request.body || {};
@@ -140,7 +156,9 @@ export async function editPiece(request, response) {
     const updateData = {
       ...(title && { title: title.trim() }),
       ...(description && { description: description.trim() }),
-      ...(categories && { categories }),
+      ...(category && { category }),
+      ...(color && { color }),
+      ...(fabric && { fabric }),
       ...(typeof visible !== "undefined" && { visible }),
       ...(imageUrl && { image: imageUrl }),
     };
