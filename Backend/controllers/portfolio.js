@@ -52,11 +52,11 @@ export async function createPiece(request, response) {
     const categoria = category;
     const colore = color;
     const tessuto = fabric;
-    const immagine = image;
-    const cloudinaryId = imagePublicId;
+    const immagine = request.file?.path || null;
+    const cloudinaryId = request.file?.filename || null;
     const visibile = visible;
 
-    if (descrizione < 10) {
+    if (descrizione.length < 10) {
       return response.status(400).json({
         message:
           "La descrizione deve avere una lunghezza non inferiore a 10 caratteri",

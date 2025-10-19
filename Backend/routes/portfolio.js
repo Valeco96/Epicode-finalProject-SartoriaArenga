@@ -16,7 +16,7 @@ portfolioRouter.get("/", getAllPieces); // lista (supporta query: category, page
 portfolioRouter.get("/:id", getSinglePiece);
 
 //Rotte private (admin)
-portfolioRouter.post("/", createPiece); // (autorizzazione admin da aggiungere)
+portfolioRouter.post("/", uploadCloudinary.single("image"), createPiece); // (autorizzazione admin da aggiungere)
 portfolioRouter.put("/:id", uploadCloudinary.single("image"), editPiece); // (autorizzazione admin da aggiungere)
 portfolioRouter.patch(
   "/:imageId/image",
