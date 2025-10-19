@@ -1,0 +1,89 @@
+/*GENERAL*/
+
+.center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.button-navy-background {
+    background-color: #141f32;
+	padding: 10px 15px;
+	color: white;
+	border-radius: 25px;
+    cursor: pointer;
+}
+
+h2 {
+    font-size: 42px;
+}
+
+/*HOMEPAGE*/
+
+.banner {
+  background-image: url("../assets/cover-galleria.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 700px;
+  top: -1px;
+  position: relative;
+}
+
+.tassello-homepage-1 {
+  background-image: url("../assets/giacca-etichetta.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 518px;
+  top: -1px;
+  position: relative;
+}
+
+/*ABOUT*/
+
+.banner-about {
+  background-image: url("../assets/pex-vicoli-2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 300px;
+  top: -1px;
+  position: relative;
+}
+
+/*PORTFOLIOPAGE*/
+
+.btn-outline-secondary {
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-dark {
+  border-radius: 50px;
+}
+
+/*#cards-container {
+    background-color: #141f32;
+}*/
+
+/*TRADIZIONE*/
+
+.banner-tradizione {
+  background-image: url("../assets/pex-armeno.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 400px;
+  top: -1px;
+  position: relative;
+}
