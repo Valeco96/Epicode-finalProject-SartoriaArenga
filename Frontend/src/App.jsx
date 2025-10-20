@@ -7,25 +7,33 @@ import Footer from "./components/Footer";
 import SNavbar from "./components/SNavbar";
 import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
-import Portfolio from "./pages/Portfolio";
+import PortfolioPage from "./pages/PortfolioPage";
 import About from "./pages/About";
 import "./App.css";
+import AdminPortfolio from "./pages/AdminPortfolio";
+import TradNapoli from "./pages/TradNapoli";
+import AdminBookings from "./pages/AdminBookings";
+import RichiediAppuntamento from "./pages/RichiediAppuntamento";
 
 function App() {
   return (
     <BrowserRouter>
       <SNavbar />
-      <Container>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/lavori" element={<PortfolioForm/>} />
-          <Route path="/prenotazioni" element={<BookingForm />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        {/*Footer*/}
-      </Container>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/tradizione-napoletana" element={<TradNapoli />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/admin-portfolio" element={<AdminPortfolio />} />
+        <Route path="/PortfolioForm/:id" element={<PortfolioForm />} />
+        <Route path="/prenotazioni" element={<AdminBookings />} />
+        <Route
+          path="/richiedi-appuntamento"
+          element={<RichiediAppuntamento />}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Container>{/*Footer*/}</Container>
       <Footer />
     </BrowserRouter>
   );

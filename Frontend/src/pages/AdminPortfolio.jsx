@@ -6,6 +6,7 @@ import SinglePieceAdmin from "../components/SinglePieceAdmin";
 
 function AdminPortfolio() {
   const [pieces, setPieces] = useState([]);
+  const [selectedPiece, setSelectedPiece] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -32,8 +33,11 @@ function AdminPortfolio() {
 
   return (
     <>
-      <h1>Costruiamo la pagina per l'admin :D</h1>
-      <PortfolioForm />
+      <h1>Pagina Portfolio per Admin</h1>
+      <PortfolioForm
+        selectedPiece={selectedPiece}
+        onFinishEdit={() => setSelectedPiece(null)}
+      />
 
       {/*Griglia lavori*/}
       <Container>
@@ -43,7 +47,11 @@ function AdminPortfolio() {
           {pieces &&
             pieces.map((piece) => (
               <Col key={piece._id} className="mb-4" sm={12} md={6} lg={4}>
-                <SinglePieceAdmin key={piece.asin} piece={piece} />
+                <SinglePieceAdmin
+                  key={piece.asin}
+                  piece={piece}
+                  handleEdit={setSelectedPiece}
+                />
               </Col>
             ))}
         </Row>

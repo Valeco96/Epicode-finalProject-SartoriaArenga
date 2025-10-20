@@ -8,9 +8,12 @@ import { getAllPieces } from "../data/portfolio";
 function PortfolioPage() {
   const [pieces, setPieces] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Tutte");
+  const [selectedColor, setSelectedColor] = useState("Tutti");
+  const [selectedFabric, setSelectedFabric] = useState("Tutti");
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [error, setError] = useState(null);
 
+  //Categorie, colori e tessuti
   const categories = [
     "Tutte",
     "giacca",
@@ -20,9 +23,10 @@ function PortfolioPage() {
     "completo",
     "evento",
   ];
-  const colors = ["blu", "grigio", "nero"];
-  const fabrics = ["cotone", "100% lana", "flanella"];
+  const colors = ["Tutti", "blu", "grigio", "nero"];
+  const fabrics = ["Tutti", "cotone", "100% lana", "flanella"];
 
+  //Fetch dati dal portfolio
   useEffect(() => {
     console.log("Fetching pieces..");
     let isMounted = true;
@@ -42,18 +46,30 @@ function PortfolioPage() {
       isMounted = false;
     };
   }, []);
-  //   fetch("http://localhost:2000/api/portfolio")
-  //     .then((response) => response.json())
-  //     .then((data) => setPieces(data))
-  //     .catch((error) =>
-  //       console.error("Errore nel caricamento del Portfolio:", error)
-  //     );
-  // }, []);
 
-  const filteredPieces =
-    selectedCategory === "Tutte"
-      ? pieces
-      : pieces.filter((p) => p.category === selectedCategory);
+  //Filtro combinato
+  const filteredPieces = pieces.filter((p) => {
+    //console.log(p.category, selectedCategory);
+    const matchCategory =
+      selectedCategory === "Tutte" ||
+      (Array.isArray(p.category) &&
+        p.category.some(
+          (cat) => cat.toLowerCase() === selectedCategory.toLowerCase()
+        ));
+    const matchColor =
+      selectedColor === "Tutti" ||
+      (Array.isArray(p.color) &&
+        p.color.some(
+          (col) => col.toLowerCase() === selectedColor.toLowerCase()
+        ));
+    const matchFabric =
+      selectedFabric === "Tutti" ||
+      (Array.isArray(p.fabric) &&
+        p.fabric.some(
+          (fab) => fab.toLowerCase() === selectedFabric.toLowerCase()
+        ));
+    return matchCategory && matchColor && matchFabric;
+  });
 
   return (
     <>
@@ -86,9 +102,9 @@ function PortfolioPage() {
           {colors.map((col) => (
             <button
               key={col}
-              onClick={() => setSelectedCategory(col)}
+              onClick={() => setSelectedColor(col)}
               className={`btn ${
-                selectedCategory === col ? "btn-dark" : "btn-outline-secondary"
+                selectedColor === col ? "btn-dark" : "btn-outline-secondary"
               }`}
             >
               {col.charAt(0).toUpperCase() + col.slice(1)}
@@ -99,9 +115,9 @@ function PortfolioPage() {
           {fabrics.map((fab) => (
             <button
               key={fab}
-              onClick={() => setSelectedCategory(fab)}
+              onClick={() => setSelectedFabric(fab)}
               className={`btn ${
-                selectedCategory === fab ? "btn-dark" : "btn-outline-secondary"
+                selectedFabric === fab ? "btn-dark" : "btn-outline-secondary"
               }`}
             >
               {fab.charAt(0).toUpperCase() + fab.slice(1)}
@@ -111,7 +127,7 @@ function PortfolioPage() {
         {/*Griglia lavori*/}
         <div id="cards-container" className="row g-4">
           <AnimatePresence>
-            {pieces.map((piece) => (
+            {filteredPieces.map((piece) => (
               <motion.div
                 key={piece._id}
                 className="col-12 col-sm-6 col-md-4"
@@ -134,7 +150,8 @@ function PortfolioPage() {
             Nessun lavoro trovato per questa categoria.
           </p>
         )}
-        ;{/*Modal con Carosello*/}
+        ;
+        {/* Modal con Carosello
         <Modal
           show={!!selectedPiece}
           onHide={() => setSelectedPiece(null)}
@@ -186,7 +203,7 @@ function PortfolioPage() {
               </Modal.Footer>
             </>
           )}
-        </Modal>
+        </Modal> */}
       </div>
     </>
   );
