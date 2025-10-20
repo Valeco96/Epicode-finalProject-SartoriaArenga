@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Alert, Spinner } from "react-bootstrap";
-import { createPiece, editPiece, getSinglePiece } from "../data/portfolio"; // importa le funzioni API corrette
+import {
+  createPiece,
+  editPiece,
+  getAllPieces,
+  getSinglePiece,
+} from "../data/portfolio"; // importa le funzioni API corrette
 import { useNavigate, useParams } from "react-router";
+import SinglePieceAdmin from "./SinglePieceAdmin";
 
 function PortfolioForm() {
   const { id } = useParams();
-  const { isEdited } = !!id; //true se stiamo modificando il <lavoro />
+  const isEdited = !!id; //true se stiamo modificando il <lavoro />
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -22,6 +28,7 @@ function PortfolioForm() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [pieces, setPieces] = useState([]);
 
   const categories = [
     "giacca",
@@ -178,6 +185,28 @@ function PortfolioForm() {
     setErrorMessage("");
   };
 
+  useEffect(() => {
+    console.log("Fetching pieces...");
+    let isMounted = true; // flag per evitare aggiornamenti su component smontato
+
+    async function fetchPieces() {
+      try {
+        const piecesFromApi = await getAllPieces();
+        console.log("Pieces fetched from API: ", piecesFromApi);
+        if (isMounted) setPieces(piecesFromApi);
+      } catch (error) {
+        console.error("Errore nel fetch dei lavori:", error);
+        setError("Errore nel recupero dei lavori.");
+      }
+    }
+
+    fetchPieces();
+
+    return () => {
+      isMounted = false; //impedisce duplicati durante double-mount in dev
+    };
+  }, []);
+
   return (
     <>
       <div className="container py-5">
@@ -289,6 +318,20 @@ function PortfolioForm() {
           </div>
         </Form>
       </div>
+
+      {/*Griglia lavori*/}
+      <Container>
+        <h2 className="p-4">Storico dei lavori pubblicati</h2>
+        <Row className="align-items-stretch">
+          {pieces && pieces.length === 0 && <p>Nessun lavoro disponibile</p>}
+          {pieces &&
+            pieces.map((piece) => (
+              <Col key={piece._id} className="mb-4" sm={12} md={6} lg={4}>
+                <SinglePieceAdmin key={piece.asin} piece={piece} />
+              </Col>
+            ))}
+        </Row>
+      </Container>
     </>
   ); //FINE FORM ORIGINALE
 }
