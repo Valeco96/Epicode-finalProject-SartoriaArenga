@@ -24,7 +24,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/tradizione-napoletana" element={<TradNapoli />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/admin-portfolio" element={<AdminPortfolio />} />
+        <Route path="/admin-storico-lavori" element={<AdminPortfolio />} />
+        <Route path="/form-portfolio" element={<PortfolioForm />} />
         <Route path="/PortfolioForm/:id" element={<PortfolioForm />} />
         <Route path="/prenotazioni" element={<AdminBookings />} />
         <Route

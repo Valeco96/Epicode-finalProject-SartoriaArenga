@@ -28,7 +28,6 @@ const portfolioSchema = new Schema(
       type: String,
       default: null,
     },
-    visible: { type: Boolean, default: true }, //per nascondere i lavori non pubblici
   },
   { timestamps: true }
 );

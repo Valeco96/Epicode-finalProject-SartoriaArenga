@@ -29,6 +29,7 @@ const bookingSchema = new Schema(
       validate: {
         validator: function (value) {
           const appointment = new Date(value);
+          const now = new Date();
 
           // Dev’essere almeno 1 ora nel futuro
           if (appointment.getTime() < now.getTime() + 60 * 60 * 1000)
@@ -48,7 +49,7 @@ const bookingSchema = new Schema(
     notes: { type: String },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "completed", "cancelled"],
+      enum: ["pending", "confirmed", "completed", "cancelled", "changeRequest"],
       default: "pending",
     },
   },
@@ -74,14 +75,3 @@ bookingSchema.pre("save", function (next) {
 const Booking = model("Booking", bookingSchema);
 
 export default Booking;
-
-// {
-//   "_id": "ObjectId",
-//   "name": "Mario Rossi",
-//   "email": "mario.rossi@email.com",
-//   "phone": "3331234567",
-//   "service": "Abito da cerimonia",
-//   "preferredDate": "2025-09-12T15:00:00Z",
-//   "status": "pending",   // pending | confirmed | completed
-//   "createdAt": "2025-09-05T09:45:00Z"
-// }

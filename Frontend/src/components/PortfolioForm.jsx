@@ -21,7 +21,6 @@ function PortfolioForm() {
     category: "",
     color: "",
     fabric: "",
-    visible: false,
   });
 
   const [image, setImage] = useState(null);
@@ -60,7 +59,6 @@ function PortfolioForm() {
             category: data.category || "",
             color: data.color || "",
             fabric: data.fabric || "",
-            visible: data.visible || false,
           });
         } catch (error) {
           console.error("Errore nel caricamento del lavoro:", error);
@@ -178,34 +176,33 @@ function PortfolioForm() {
       category: "",
       color: "",
       fabric: "",
-      visible: false,
     });
     setImage(null);
     setMessage("");
     setErrorMessage("");
   };
 
-  useEffect(() => {
-    console.log("Fetching pieces...");
-    let isMounted = true; // flag per evitare aggiornamenti su component smontato
+  // useEffect(() => {
+  //   console.log("Fetching pieces...");
+  //   let isMounted = true; // flag per evitare aggiornamenti su component smontato
 
-    async function fetchPieces() {
-      try {
-        const piecesFromApi = await getAllPieces();
-        console.log("Pieces fetched from API: ", piecesFromApi);
-        if (isMounted) setPieces(piecesFromApi);
-      } catch (error) {
-        console.error("Errore nel fetch dei lavori:", error);
-        setError("Errore nel recupero dei lavori.");
-      }
-    }
+  //   async function fetchPieces() {
+  //     try {
+  //       const piecesFromApi = await getAllPieces();
+  //       console.log("Pieces fetched from API: ", piecesFromApi);
+  //       if (isMounted) setPieces(piecesFromApi);
+  //     } catch (error) {
+  //       console.error("Errore nel fetch dei lavori:", error);
+  //       setError("Errore nel recupero dei lavori.");
+  //     }
+  //   }
 
-    fetchPieces();
+  //   fetchPieces();
 
-    return () => {
-      isMounted = false; //impedisce duplicati durante double-mount in dev
-    };
-  }, []);
+  //   return () => {
+  //     isMounted = false; //impedisce duplicati durante double-mount in dev
+  //   };
+  // }, []);
 
   return (
     <>
@@ -262,7 +259,7 @@ function PortfolioForm() {
               value={formData.color}
               onChange={handleChange}
             >
-              <option>Scegli tra i colori</option>
+              <option value="">Scegli tra i colori</option>
               {colors.map((color) => (
                 <option key={color} value={color}>
                   {color}
@@ -278,7 +275,7 @@ function PortfolioForm() {
               value={formData.fabric}
               onChange={handleChange}
             >
-              <option>Scegli tra i tessuti</option>
+              <option value="">Scegli tra i tessuti</option>
               {fabrics.map((fabric) => (
                 <option key={fabric} value={fabric}>
                   {fabric}
@@ -296,7 +293,7 @@ function PortfolioForm() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-4">
+          {/* <Form.Group className="mb-4">
             <Form.Check
               name="visible"
               type="checkbox"
@@ -306,7 +303,7 @@ function PortfolioForm() {
                 setFormData({ ...formData, visible: e.target.checked })
               }
             />
-          </Form.Group>
+          </Form.Group> */}
 
           <div className="d-flex gap-3">
             <Button variant="dark" type="submit" disabled={loading}>
@@ -319,7 +316,7 @@ function PortfolioForm() {
         </Form>
       </div>
 
-      {/*Griglia lavori*/}
+      {/* Griglia lavori
       <Container>
         <h2 className="p-4">Storico dei lavori pubblicati</h2>
         <Row className="align-items-stretch">
@@ -331,7 +328,7 @@ function PortfolioForm() {
               </Col>
             ))}
         </Row>
-      </Container>
+      </Container> */}
     </>
   ); //FINE FORM ORIGINALE
 }

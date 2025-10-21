@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Booking from "../models/Booking.js";
+import mailer from "../helpers/mailer.js";
 
 export async function getAllBookings(request, response) {
   try {
@@ -82,21 +83,59 @@ export async function createBooking(request, response) {
     });
 
     const savedBooking = await newBooking.save();
+
+  //   //Email automatica al cliente
+  //   await mailer({
+  //     to: email,
+  //     subject: "Prenotazione ricevuta - Sartoria Arenga",
+  //     text: `Ciao ${name}, la tua prenotazione per il ${new Date(
+  //       appointmentDate
+  //     ).toLocaleString(
+  //       "it-IT"
+  //     )}  è stata ricevuta con successo! Ti contatteremo presto per confermare.`,
+  //     html: `
+  // <p>Ciao <b>${name}</b>,</p>
+  // <p>abbiamo ricevuto la tua richiesta di prenotazione per il <b>${new Date(
+  //   appointmentDate
+  // ).toLocaleString("it-IT")}</b>.</p>
+  // <p>Verrai contattato a breve per confermare l'appuntamento.</p>
+  // <br />
+  // <p><em>Sartoria Arenga</em></p>`,
+  //   });
+
+  //   //Email automatica per il sarto
+  //   await mailer({
+  //     to: process.env.EMAIL_FROM,
+  //     subject: "Nuova prenotazione ricevuta",
+  //     text: `Nuova prenotazione ricevuta:
+  //     - Nome: ${name} ${surname}
+  //     - Email: ${email}
+  //     - Telefono: ${phone}
+  //     - Servizio: ${service || "Non specificato"}
+  //     - Data appuntamento: ${new Date(appointmentDate).toLocaleString("it-IT")}
+  //     - Note: ${notes || "Nessuna"}
+  //     - Stato: ${status || "In attesa"}`,
+  //   });
+
     response.status(201).json({
-      message: "Prenotazione avvenuta con successo!",
+      message:
+        "Prenotazione avvenuta con successo! Ti abbiamo inviato una conferma via email.",
       booking: savedBooking,
     });
 
-    console.log({
-      nome,
-      cognome,
-      indirizzoEmail,
-      telefono,
-      appuntamento,
-      servizio,
-      note,
-      stato,
-    });
+    console.log(
+      {
+        nome,
+        cognome,
+        indirizzoEmail,
+        telefono,
+        appuntamento,
+        servizio,
+        note,
+        stato,
+      },
+      "Prenotazione creata e email inviate con successo!"
+    );
   } catch (error) {
     console.log("Errore nella creazione della prenotazione:", error.message);
     response.status(500).json({
@@ -136,7 +175,7 @@ export async function updateBookingStatus(request, response) {
     const { status } = request.body;
 
     //Controllo se lo status é valido
-    const validStatuses = ["pending", "confirmed", "completed", "cancelled"];
+    const validStatuses = ["pending", "confirmed", "completed", "cancelled", "changeRequest"];
     if (!validStatuses.includes(status)) {
       return response.status(400).json({ message: "Status non valido." });
     }

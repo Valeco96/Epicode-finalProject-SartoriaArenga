@@ -33,15 +33,14 @@ function AdminPortfolio() {
 
   return (
     <>
-      <h1>Pagina Portfolio per Admin</h1>
-      <PortfolioForm
+      {/* <PortfolioForm
         selectedPiece={selectedPiece}
         onFinishEdit={() => setSelectedPiece(null)}
-      />
+      /> */}
 
       {/*Griglia lavori*/}
       <Container>
-        <h2 className="p-4">Storico dei lavori pubblicati</h2>
+        <h1 className="my-5 p-2">👔 Storico dei lavori pubblicati</h1>
         <Row className="align-items-stretch">
           {pieces && pieces.length === 0 && <p>Nessun lavoro disponibile</p>}
           {pieces &&

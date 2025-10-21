@@ -22,7 +22,7 @@ bookingRouter.get("/upcoming", getUpcomingBookings); //Prenotazioni future
 bookingRouter.get("/past", getPastBookings); //Prenotazioni passate
 bookingRouter.get("/:id", getSingleBooking); // dettaglio prenotazione
 bookingRouter.patch("/:id/status", updateBookingStatus); // aggiorna stato o note parte admin
-bookingRouter.patch("/:id/date", updateBookingDate); //aggiorna data appuntamento
+//bookingRouter.patch("/:id/date", updateBookingDate); //aggiorna data appuntamento
 bookingRouter.delete("/:id", deleteBooking); // opzionale (soft delete o hard delete)
 
 export default bookingRouter;
