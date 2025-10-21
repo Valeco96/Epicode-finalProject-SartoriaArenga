@@ -14,29 +14,34 @@ import AdminPortfolio from "./pages/AdminPortfolio";
 import TradNapoli from "./pages/TradNapoli";
 import AdminBookings from "./pages/AdminBookings";
 import RichiediAppuntamento from "./pages/RichiediAppuntamento";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <BrowserRouter>
-      <SNavbar />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/tradizione-napoletana" element={<TradNapoli />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/admin-storico-lavori" element={<AdminPortfolio />} />
-        <Route path="/form-portfolio" element={<PortfolioForm />} />
-        <Route path="/PortfolioForm/:id" element={<PortfolioForm />} />
-        <Route path="/prenotazioni" element={<AdminBookings />} />
-        <Route
-          path="/richiedi-appuntamento"
-          element={<RichiediAppuntamento />}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Container>{/*Footer*/}</Container>
-      <Footer />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <SNavbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/tradizione-napoletana" element={<TradNapoli />} />
+          <Route
+            path="/richiedi-appuntamento"
+            element={<RichiediAppuntamento />}
+          />
+          <Route path="/form-portfolio" element={<PortfolioForm />} />
+          <Route path="/PortfolioForm/:id" element={<PortfolioForm />} />
+          <Route path="/admin-storico-lavori" element={<AdminPortfolio />} />
+          <Route path="/prenotazioni" element={<AdminBookings />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Container>{/*Footer*/}</Container>
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

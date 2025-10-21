@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 export async function login(request, response, next) {
   try {
     const { email, password } = request.body;
+    console.log(request.body);
 
     //Controllo che esistano entrambi i campi
     if (!email || !password) {
@@ -29,8 +30,12 @@ export async function login(request, response, next) {
     }
 
     //Genera il token JWT
-    const token = await generateJWT({ id: userEmail._id });
-
+    const token = await generateJWT({
+      id: userEmail._id,
+      email: userEmail.email,
+      isAdmin: userEmail.isAdmin,
+    });
+    console.log(token);
     return response
       .status(200)
       .json({ message: "Accesso effettuato con successo", token: token });

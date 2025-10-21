@@ -32,9 +32,13 @@ export async function getSinglePiece(id) {
   }
 }
 
-export async function editPiece(id, pieceData) {
+export async function editPiece(id, pieceData, token) {
   try {
-    const response = await axios.put(`/api/portfolio/${id}`, pieceData)
+    const response = await axios.put(`/api/portfolio/${id}`, pieceData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     console.error("Errore editPiece:", error);
     throw error;

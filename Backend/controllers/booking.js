@@ -134,7 +134,7 @@ export async function createBooking(request, response) {
         note,
         stato,
       },
-      "Prenotazione creata e email inviate con successo!"
+      "Prenotazione creata e email inviata con successo!"
     );
   } catch (error) {
     console.log("Errore nella creazione della prenotazione:", error.message);

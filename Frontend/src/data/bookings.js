@@ -1,8 +1,12 @@
 import axios from "./axios.js";
 
-export async function getAllBookings() {
+export async function getAllBookings(token) {
   try {
-    const response = await axios.get("/api/bookings");
+    const response = await axios.get("/api/bookings", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -14,7 +18,7 @@ export async function createBooking(newBooking) {
     const response = await axios.post("/api/bookings", newBooking);
     return response.data;
   } catch (error) {
-    console.error("Errore nella creazine della prenotazione.", error);
+    console.error("Errore nella creazione della prenotazione.", error);
     throw error.response?.data || error;
   }
 }
@@ -70,11 +74,16 @@ export async function getSingleBooking(bookingId, token) {
   }
 }
 
-export async function updateBookingStatus(bookingId, updatedStatus) {
+export async function updateBookingStatus(bookingId, updatedStatus, token) {
   try {
     const response = await axios.patch(
       `api/bookings/${bookingId}/status`,
-      updatedStatus
+      updatedStatus,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log("Status updated:", response.data);
     return response;
@@ -99,9 +108,13 @@ export async function updateBookingDate(bookingId, updatedDate) {
   }
 }
 
-export async function deleteBooking(bookingId) {
+export async function deleteBooking(bookingId, token) {
   try {
-    const response = await axios.delete(`api/bookings/${bookingId}`);
+    const response = await axios.delete(`api/bookings/${bookingId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);

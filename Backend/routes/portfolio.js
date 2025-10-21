@@ -8,6 +8,8 @@ import {
   getSinglePiece,
   updateImage,
 } from "../controllers/portfolio.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const portfolioRouter = express.Router();
 
@@ -16,13 +18,27 @@ portfolioRouter.get("/", getAllPieces); // lista (supporta query: category, page
 portfolioRouter.get("/:id", getSinglePiece);
 
 //Rotte private (admin)
-portfolioRouter.post("/", uploadCloudinary.single("image"), createPiece); // (autorizzazione admin da aggiungere)
-portfolioRouter.put("/:id", uploadCloudinary.single("image"), editPiece); // (autorizzazione admin da aggiungere)
+portfolioRouter.post(
+  "/",
+  verifyToken,
+  isAdmin,
+  uploadCloudinary.single("image"),
+  createPiece
+);
+portfolioRouter.put(
+  "/:id",
+  verifyToken,
+  isAdmin,
+  uploadCloudinary.single("image"),
+  editPiece
+);
 portfolioRouter.patch(
   "/:imageId/image",
+  verifyToken,
+  isAdmin,
   uploadCloudinary.single("image"),
   updateImage
 );
-portfolioRouter.delete("/:id", deletePiece); //(autenticazione admin da aggiungere)
+portfolioRouter.delete("/:id", verifyToken, isAdmin, deletePiece);
 
 export default portfolioRouter;
