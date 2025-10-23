@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   deleteBooking,
-  updateBookingDate,
+  getAllBookings,
   updateBookingStatus,
 } from "../data/bookings";
 import { Alert, Button, Form, Modal, Spinner, Table } from "react-bootstrap";
+import { AuthContext } from "../context/AuthContext";
 
 function AdminBookings() {
   const [bookings, setBookings] = useState([]);
@@ -22,18 +23,17 @@ function AdminBookings() {
     changeRequest: "📝 Prenotazione da cambiare con il cliente",
   };
 
-  //aggiungi qui const token = localStorage.getItem("token");
+  const { token } = useContext(AuthContext);
 
   //Fetch iniziale di tutte le prenotazioni
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:2000/api/bookings");
-      if (!response.ok)
-        throw new Error("Errore nel caricamento delle prenotazioni.");
-      const data = await response.json();
+      setError("");
+
+      const data = await getAllBookings(token);
       setBookings(data);
-      console.log(data);
+      console.log("Prenotazioni caricate:", data);
     } catch (error) {
       console.error(error);
       setError("Errore durante il caricamento delle prenotazioni.");
@@ -43,8 +43,12 @@ function AdminBookings() {
   };
 
   useEffect(() => {
+    if (!token) {
+      setError("Utente non autenticato. Effettua nuovamente il login.");
+      return;
+    }
     fetchBookings();
-  }, []);
+  }, [token]);
 
   //Filtraggio per stato
   const filteredBookingStatus =
@@ -104,16 +108,23 @@ function AdminBookings() {
       fetchBookings();
 
       //Passo l'oggetto con status e notes all'API
-      await updateBookingStatus(selectedBooking._id, {
-        status: selectedBooking.status,
-        notes: selectedBooking.notes,
-      });
+      await updateBookingStatus(
+        selectedBooking._id,
+        {
+          status: selectedBooking.status,
+          notes: selectedBooking.notes,
+        },
+        token
+      );
 
       // await updateBookingDate(selectedBooking._id, {
       //   date: selectedBooking.date,
       // });
 
-      alert(statusMessage[selectedBooking.status] || "Stato aggiornato con successo!");
+      alert(
+        statusMessage[selectedBooking.status] ||
+          "Stato aggiornato con successo!"
+      );
 
       fetchBookings(); //per ricaricare la lista aggiornata
     } catch (error) {
@@ -129,9 +140,9 @@ function AdminBookings() {
 
     try {
       setLoading(true);
-      await deleteBooking(bookingId);
+      await deleteBooking(bookingId, token);
       //Rimuove localmente la riga
-      setBookings((prev) => prev.filter((b) => b._bookingId !== bookingId));
+      setBookings((prev) => prev.filter((b) => b._id !== bookingId));
       alert("Prenotazione eliminata con successo!");
     } catch (error) {
       console.error(error);
