@@ -16,11 +16,11 @@ function AdminBookings() {
   const [filterStatus, setFilterStatus] = useState("all");
   //const [filterDate, setFilterDate] = useState("any");
   const statusMessage = {
-    confirmed: "😎 Prenotazione confermata con successo!",
+    confirmed: "😎 Email di prenotazione confermata inviata al cliente!",
     cancelled: "❌ Prenotazione annullata",
-    completed: "🤩 Whoop whoop un'altro appuntamento completato!",
+    completed: "🤩 Whoop whoop un'altro cliente soddisfatto!",
     pending: "⌛ Prenotazione in attesa di conferma",
-    changeRequest: "📝 Prenotazione da cambiare con il cliente",
+    changeRequest: "📝 Email di richiesta cambio ora/data inviata al cliente.",
   };
 
   const { token } = useContext(AuthContext);

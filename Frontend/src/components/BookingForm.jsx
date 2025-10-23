@@ -53,7 +53,10 @@ function BookingForm() {
 
       if (!data) throw new Error("Errore nella creazione della prenotazione.");
 
-      setMessage("Prenotazione crata con successo!");
+      alert(
+        "La tua richiesta di prenotazione è stata inviata. Ti manderemo un'email di conferma della ricevuta del tuo appuntamento."
+      );
+      //setMessage("Prenotazione crata con successo!");
       setFormData({
         name: "",
         surname: "",
@@ -65,6 +68,7 @@ function BookingForm() {
       });
     } catch (error) {
       console.error(error);
+      alert("La richiesta di prenotazione non è stata inviata correttamente. Vi chiediamo di ricontrollare l'inserimento");
       setError(error.message || "Errore del server.");
     } finally {
       setLoading(false);
@@ -73,8 +77,16 @@ function BookingForm() {
 
   return (
     <div className="bf-container py-4">
-      {message && <Alert variant="success">{message}</Alert>}
-      {error && <Alert variant="danger">{error}</Alert>}
+      {/* {message && (
+        <Alert className="text-center" variant="success">
+          {message}
+        </Alert>
+      )}
+      {error && (
+        <Alert className="text-center" variant="danger">
+          {error}
+        </Alert>
+      )} */}
 
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">

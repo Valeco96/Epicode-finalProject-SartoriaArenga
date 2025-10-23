@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import Booking from "../models/Booking.js";
-import mailer from "../helpers/mailer.js";
+import {
+  sendReceivedBooking,
+  sendNewBooking,
+  sendConfirmationEmail,
+  sendRescheduleEmail,
+} from "../helpers/sg-mailer.js";
 
 export async function getAllBookings(request, response) {
   try {
@@ -84,38 +89,26 @@ export async function createBooking(request, response) {
 
     const savedBooking = await newBooking.save();
 
-  //   //Email automatica al cliente
-  //   await mailer({
-  //     to: email,
-  //     subject: "Prenotazione ricevuta - Sartoria Arenga",
-  //     text: `Ciao ${name}, la tua prenotazione per il ${new Date(
-  //       appointmentDate
-  //     ).toLocaleString(
-  //       "it-IT"
-  //     )}  è stata ricevuta con successo! Ti contatteremo presto per confermare.`,
-  //     html: `
-  // <p>Ciao <b>${name}</b>,</p>
-  // <p>abbiamo ricevuto la tua richiesta di prenotazione per il <b>${new Date(
-  //   appointmentDate
-  // ).toLocaleString("it-IT")}</b>.</p>
-  // <p>Verrai contattato a breve per confermare l'appuntamento.</p>
-  // <br />
-  // <p><em>Sartoria Arenga</em></p>`,
-  //   });
+    //Invio email di conferma al cliente
+    await sendReceivedBooking({
+      to: indirizzoEmail,
+      name: nome,
+      date: appuntamento,
+      service: servizio,
+    });
 
-  //   //Email automatica per il sarto
-  //   await mailer({
-  //     to: process.env.EMAIL_FROM,
-  //     subject: "Nuova prenotazione ricevuta",
-  //     text: `Nuova prenotazione ricevuta:
-  //     - Nome: ${name} ${surname}
-  //     - Email: ${email}
-  //     - Telefono: ${phone}
-  //     - Servizio: ${service || "Non specificato"}
-  //     - Data appuntamento: ${new Date(appointmentDate).toLocaleString("it-IT")}
-  //     - Note: ${notes || "Nessuna"}
-  //     - Stato: ${status || "In attesa"}`,
-  //   });
+    //Invia email di notifica nuova prenotazione al sarto
+    await sendNewBooking({
+      to: process.env.EMAIL_FROM,
+      name: nome,
+      surname: cognome,
+      email: indirizzoEmail,
+      phone: telefono,
+      date: appuntamento,
+      service: servizio,
+      notes: note,
+      status: stato,
+    });
 
     response.status(201).json({
       message:
@@ -175,7 +168,13 @@ export async function updateBookingStatus(request, response) {
     const { status } = request.body;
 
     //Controllo se lo status é valido
-    const validStatuses = ["pending", "confirmed", "completed", "cancelled", "changeRequest"];
+    const validStatuses = [
+      "pending",
+      "confirmed",
+      "completed",
+      "cancelled",
+      "changeRequest",
+    ];
     if (!validStatuses.includes(status)) {
       return response.status(400).json({ message: "Status non valido." });
     }
@@ -191,6 +190,29 @@ export async function updateBookingStatus(request, response) {
       return response
         .status(404)
         .json({ message: "Prenotazione non trovata." });
+    }
+
+    //Invio email automatica basata sullo stato
+    if (status === "confirmed") {
+      await sendConfirmationEmail({
+        to: booking.email,
+        name: booking.name,
+        date: booking.appointmentDate,
+        service: booking.service,
+      });
+      console.log(`Email di conferma inviata a ${booking.email}`);
+    }
+
+    if (status === "changeRequest") {
+      await sendRescheduleEmail({
+        to: booking.email,
+        name: booking.name,
+        date: booking.appointmentDate,
+        service: booking.service,
+      });
+      console.log(
+        `Email di richiesta cambio ora o data inviata a ${booking.email}`
+      );
     }
 
     response
