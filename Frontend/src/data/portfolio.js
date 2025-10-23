@@ -25,8 +25,8 @@ export async function createPiece(newPiece, token) {
 export async function getSinglePiece(id) {
   try {
     const response = await axios.get(`/api/portfolio/${id}`);
-    return response.data;
     console.log("Response completa:", response.data);
+    return response.data;
   } catch (error) {
     console.log("Errore getSinglePiece:", error);
   }
@@ -39,6 +39,8 @@ export async function editPiece(id, pieceData, token) {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("Lavoro creato:", response.data);
+    return response.data;
   } catch (error) {
     console.error("Errore editPiece:", error);
     throw error;

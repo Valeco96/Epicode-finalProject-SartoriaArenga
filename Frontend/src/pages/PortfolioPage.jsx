@@ -10,6 +10,7 @@ function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState("Tutte");
   const [selectedColor, setSelectedColor] = useState("Tutti");
   const [selectedFabric, setSelectedFabric] = useState("Tutti");
+  const [selectedSeason, setSelectedSeason] = useState("quattro stagioni");
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [error, setError] = useState(null);
 
@@ -17,14 +18,34 @@ function PortfolioPage() {
   const categories = [
     "Tutte",
     "giacca",
-    "cappotto",
+    "abito",
     "gilet",
-    "smoking",
-    "completo",
-    "evento",
+    "pantalone",
+    "cappotto",
   ];
-  const colors = ["Tutti", "blu", "grigio", "nero"];
-  const fabrics = ["Tutti", "cotone", "100% lana", "flanella"];
+  const colors = [
+    "Tutti",
+    "bianco",
+    "beige",
+    "grigio",
+    "azzurro",
+    "blu",
+    "arancione",
+    "rosso",
+    "borgogna",
+    "marrone",
+  ];
+  const fabrics = [
+    "Tutti",
+    "cotone",
+    "lino",
+    "lana/lino/seta",
+    "lana/lino",
+    "lana",
+    "cachemire",
+    "lana/cachemire",
+  ];
+  const seasons = ["quattro stagioni", "estate", "inverno"];
 
   //Fetch dati dal portfolio
   useEffect(() => {
@@ -68,15 +89,21 @@ function PortfolioPage() {
         p.fabric.some(
           (fab) => fab.toLowerCase() === selectedFabric.toLowerCase()
         ));
-    return matchCategory && matchColor && matchFabric;
+    const matchSeason =
+      selectedSeason === "quattro stagioni" ||
+      (Array.isArray(p.season) &&
+        p.season.some(
+          (sea) => sea.toLowerCase() === selectedSeason.toLowerCase()
+        ));
+    return matchCategory && matchColor && matchFabric && matchSeason;
   });
 
   return (
     <>
-      <div className="container py-5">
+      <div className="container py-5" style={{ color: "#141f36" }}>
         {/*Header*/}
         <div className="text-center mb-5">
-          <h1 className="display-5 fw-bold">Collezione</h1>
+          <h1 className="display-5 fw-bold mb-3 big-title">Collezione</h1>
           <p className="text-muted">
             <em>
               Ogni capo è realizzato su misura, con attenzione ai dettagli e
@@ -85,20 +112,61 @@ function PortfolioPage() {
           </p>
         </div>
         {/*Filtri*/}
-        <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`btn ${
-                selectedCategory === cat ? "btn-dark" : "btn-outline-secondary"
-              }`}
-            >
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>
-          ))}
+        <div className="portfolio-filter-parent mb-5">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="portfolio-filters"
+          >
+            <option value="Tutte">Categorie per capo</option>
+            <option value="giacca">Giacca</option>
+            <option value="abito">Abito</option>
+            <option value="gilet">Gilet</option>
+            <option value="pantalone">Pantalone</option>
+            <option value="cappotto">Cappotto</option>
+          </select>
+          <select
+            value={selectedColor}
+            onChange={(e) => setSelectedColor(e.target.value)}
+            className="portfolio-filters"
+          >
+            <option value="Tutti">Tutti i colori</option>
+            <option value="bianco">Bianco</option>
+            <option value="beige">Beige</option>
+            <option value="grigio">Grigio</option>
+            <option value="azzurro">Azzurro</option>
+            <option value="blu">Blu</option>
+            <option value="arancione">Arancione</option>
+            <option value="rosso">Rosso</option>
+            <option value="borgogna">Borgogna</option>
+            <option value="marrone">Marrone</option>
+          </select>
+          <select
+            value={selectedFabric}
+            onChange={(e) => setSelectedFabric(e.target.value)}
+            className="portfolio-filters"
+          >
+            <option value="Tutti">Tutti i tessuti</option>
+            <option value="cotone">Cotone</option>
+            <option value="lino">Lino</option>
+            <option value="lana/lino/seta">Lana/Lino/Seta</option>
+            <option value="lana/lino">Lana/Lino</option>
+            <option value="lana">Lana</option>
+            <option value="cachemire">Cachemire</option>
+            <option value="lana/cachemire">Lana/Cachimere</option>
+          </select>
+
+          <select
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value)}
+            className="portfolio-filters"
+          >
+            <option value="quattro stagioni">Tutte le stagioni</option>
+            <option value="estate">Estate</option>
+            <option value="inverno">Inverno</option>
+          </select>
         </div>
-        <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
+        {/* <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
           {colors.map((col) => (
             <button
               key={col}
@@ -124,8 +192,21 @@ function PortfolioPage() {
             </button>
           ))}
         </div>
+        <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
+          {seasons.map((sea) => (
+            <button
+              key={sea}
+              onClick={() => setSelectedSeason(sea)}
+              className={`btn ${
+                selectedSeason === sea ? "btn-dark" : "btn-outline-secondary"
+              }`}
+            >
+              {sea.charAt(0).toUpperCase() + sea.slice(1)}
+            </button>
+          ))}
+        </div> */}
         {/*Griglia lavori*/}
-        <div id="cards-container" className="row g-4">
+        <div id="cards-container" className="row g-4 mb-5">
           <AnimatePresence>
             {filteredPieces.map((piece) => (
               <motion.div
@@ -150,7 +231,6 @@ function PortfolioPage() {
             Nessun lavoro trovato per questa categoria.
           </p>
         )}
-        ;
         {/* Modal con Carosello
         <Modal
           show={!!selectedPiece}

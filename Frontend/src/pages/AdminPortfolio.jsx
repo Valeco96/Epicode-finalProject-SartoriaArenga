@@ -39,8 +39,8 @@ function AdminPortfolio() {
       /> */}
 
       {/*Griglia lavori*/}
-      <Container>
-        <h1 className="my-5 p-2">👔 Storico dei lavori pubblicati</h1>
+      <Container className="mb-4">
+        <h1 className="my-5 p-3 fw-bold">Storico dei lavori pubblicati</h1>
         <Row className="align-items-stretch">
           {pieces && pieces.length === 0 && <p>Nessun lavoro disponibile</p>}
           {pieces &&

@@ -38,7 +38,7 @@ function SinglePieceAdmin({ piece, onClick }) {
   return (
     <>
       <div
-        className="card border-0 shadow-sm"
+        className="card border-0 shadow-sm h-100"
         onClick={onClick}
         style={{ cursor: "pointer" }}
       >
@@ -49,23 +49,30 @@ function SinglePieceAdmin({ piece, onClick }) {
             className="card-img-top piece-image-admin"
           />
         </div>
-        <div className="card-body text-center">
-          <h5 className="card-title fw-bold">Titolo: {piece.title}</h5>
-          <p>Descrizione: {piece.description}</p>
+        <div className="card-body text-center d-flex flex-column">
+          <h5 className="card-title mb-4 fw-bold">Titolo: {piece.title}</h5>
+          <p className="fst-italic mb-2 flex-grow-1">
+            Descrizione: {piece.description}
+          </p>
           <p className="mb-0">
             Categorie: {piece.category}, {piece.color}, {piece.fabric}
           </p>
-          <p>Visibile sul sito: {piece.visible}</p>
-          <Button
-            variant="warning"
-            className="me-2"
-            onClick={() => handleEdit(piece._id)}
-          >
-            Modifica
-          </Button>
-          <Button variant="danger" onClick={() => handleDelete(piece._id)}>
-            Elimina
-          </Button>
+          <div className="mt-auto"> 
+            <Button
+              style={{ backgroundColor: "#141f32" }}
+              className="my-4 mx-3"
+              onClick={() => handleEdit(piece._id)}
+            >
+              Modifica
+            </Button>
+            <Button
+              className="my-4 mx-3"
+              style={{ backgroundColor: "rgba(206, 78, 3, 1)" }}
+              onClick={() => handleDelete(piece._id)}
+            >
+              Elimina
+            </Button>
+          </div>
         </div>
       </div>
     </>

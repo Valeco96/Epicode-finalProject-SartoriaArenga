@@ -21,6 +21,7 @@ function PortfolioForm() {
     category: "",
     color: "",
     fabric: "",
+    season: "",
   });
 
   const [image, setImage] = useState(null);
@@ -29,16 +30,28 @@ function PortfolioForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [pieces, setPieces] = useState([]);
 
-  const categories = [
-    "giacca",
-    "cappotto",
-    "gilet",
-    "smoking",
-    "completo",
-    "evento",
+  const categories = ["giacca", "abito", "gilet", "pantalone", "cappotto"];
+  const colors = [
+    "bianco",
+    "beige",
+    "grigio",
+    "azzurro",
+    "blu",
+    "arancione",
+    "rosso",
+    "borgogna",
+    "marrone",
   ];
-  const colors = ["blu", "nero", "grigio"];
-  const fabrics = ["cotone", "100% lana", "flanella"];
+  const fabrics = [
+    "cotone",
+    "lino",
+    "lana/lino/seta",
+    "lana/lino",
+    "lana",
+    "cachemire",
+    "lana/cachemire",
+  ];
+  const seasons = ["quattro stagioni", "estate", "inverno"];
 
   //Precompilazione dei dati se stiamo modificando
   useEffect(() => {
@@ -59,6 +72,7 @@ function PortfolioForm() {
             category: data.category || "",
             color: data.color || "",
             fabric: data.fabric || "",
+            season: data.season || "",
           });
         } catch (error) {
           console.error("Errore nel caricamento del lavoro:", error);
@@ -206,94 +220,119 @@ function PortfolioForm() {
 
   return (
     <>
-      <div className="container py-5">
-        <h1 className="mb-4">Form Portfolio</h1>
+      <div className="portfolio-form-wrapper">
+        <div className="pf-container py-5">
+          <h1 className="mb-4 text-center fw-bold">Form Portfolio</h1>
 
-        {message && <Alert variant="success">{message}</Alert>}
-        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+          {message && (
+            <Alert className="text-center" variant="success">
+              {message}
+            </Alert>
+          )}
+          {errorMessage && (
+            <Alert className="text-center" variant="danger">
+              {errorMessage}
+            </Alert>
+          )}
 
-        <Form onSubmit={handleSubmit} className="p-5 wrapper">
-          <Form.Group className="mb-3">
-            <Form.Label>Titolo del lavoro:</Form.Label>
-            <Form.Control
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+          <Form onSubmit={handleSubmit} className="p-5 wrapper">
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Titolo del lavoro:</Form.Label>
+              <Form.Control
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Descrizione:</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="description"
-              placeholder="Descrizione - min. 10 caratteri"
-              rows={3}
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Descrizione:</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="description"
+                placeholder="Descrizione - min. 10 caratteri"
+                rows={3}
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Categoria:</Form.Label>
-            <Form.Select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-            >
-              <option>Scegli tra le categorie</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Categoria:</Form.Label>
+              <Form.Select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+              >
+                <option>Scegli tra le categorie</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Colore:</Form.Label>
-            <Form.Select
-              name="color"
-              value={formData.color}
-              onChange={handleChange}
-            >
-              <option value="">Scegli tra i colori</option>
-              {colors.map((color) => (
-                <option key={color} value={color}>
-                  {color}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Colore:</Form.Label>
+              <Form.Select
+                name="color"
+                value={formData.color}
+                onChange={handleChange}
+              >
+                <option value="">Scegli tra i colori</option>
+                {colors.map((color) => (
+                  <option key={color} value={color}>
+                    {color}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Tessuto:</Form.Label>
-            <Form.Select
-              name="fabric"
-              value={formData.fabric}
-              onChange={handleChange}
-            >
-              <option value="">Scegli tra i tessuti</option>
-              {fabrics.map((fabric) => (
-                <option key={fabric} value={fabric}>
-                  {fabric}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Tessuto:</Form.Label>
+              <Form.Select
+                name="fabric"
+                value={formData.fabric}
+                onChange={handleChange}
+              >
+                <option value="">Scegli tra i tessuti</option>
+                {fabrics.map((fabric) => (
+                  <option key={fabric} value={fabric}>
+                    {fabric}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Immagine:</Form.Label>
-            <Form.Control
-              type="file"
-              placeholder="Carica foto"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Stagione:</Form.Label>
+              <Form.Select
+                name="season"
+                value={formData.season}
+                onChange={handleChange}
+              >
+                <option value="">Scegli la stagione</option>
+                {seasons.map((season) => (
+                  <option key={season} value={season}>
+                    {season}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          {/* <Form.Group className="mb-4">
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-bold">Immagine:</Form.Label>
+              <Form.Control
+                type="file"
+                placeholder="Carica foto"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Form.Group>
+
+            {/* <Form.Group className="mb-4">
             <Form.Check
               name="visible"
               type="checkbox"
@@ -305,15 +344,28 @@ function PortfolioForm() {
             />
           </Form.Group> */}
 
-          <div className="d-flex gap-3">
-            <Button variant="dark" type="submit" disabled={loading}>
-              {loading ? <Spinner animation="border" size="sm" /> : "Salva"}
-            </Button>
-            <Button variant="warning" type="button" onClick={handleReset}>
-              Reset
-            </Button>
-          </div>
-        </Form>
+            <div className="d-flex gap-4 mt-5  flex-wrap justify-content-center">
+              <Button
+                type="submit"
+                disabled={loading}
+                style={{ backgroundColor: "#141f32" }}
+              >
+                {loading ? <Spinner animation="border" size="sm" /> : "Salva"}
+              </Button>
+              <Button
+                variant="warning"
+                type="button"
+                onClick={handleReset}
+                style={{
+                  backgroundColor: "rgb(255, 115, 34)",
+                  color: "#FFFFFF",
+                }}
+              >
+                Reset
+              </Button>
+            </div>
+          </Form>
+        </div>
       </div>
 
       {/* Griglia lavori
