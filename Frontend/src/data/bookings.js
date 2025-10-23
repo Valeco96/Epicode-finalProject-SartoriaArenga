@@ -9,7 +9,8 @@ export async function getAllBookings(token) {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Errore nel recupero delle prenotazioni:", error);
+    throw error;
   }
 }
 
@@ -30,11 +31,11 @@ export async function getUpcomingBookings(bookingDate, token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
     console.log(
       "Response completa con dati delle prenotazioni:",
       response.data
     );
+    return response.data;
   } catch (error) {
     console.log("Errore getUpcomingBooking", error);
     throw error;
@@ -48,11 +49,11 @@ export async function getPastBookings(bookingDate, token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
     console.log(
       "Response completa con dati delle prenotazioni:",
       response.data
     );
+    return response.data;
   } catch (error) {
     console.log("Errore getPastBooking", error);
     throw error;
@@ -66,8 +67,8 @@ export async function getSingleBooking(bookingId, token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
     console.log("Response completa:", response.data);
+    return response.data;
   } catch (error) {
     console.log("Errore getSingleBooking:", error);
     throw error;
@@ -86,7 +87,7 @@ export async function updateBookingStatus(bookingId, updatedStatus, token) {
       }
     );
     console.log("Status updated:", response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Errore updateBookingStatus:", error);
     throw error;
@@ -96,12 +97,11 @@ export async function updateBookingStatus(bookingId, updatedStatus, token) {
 export async function updateBookingDate(bookingId, updatedDate) {
   try {
     console.log("Patch body inviato:", updatedDate);
-    const response = await axios.patch(
-      `api/bookings/${bookingId}/date`,
-      updatedDate
-    );
+    const response = await axios.patch(`api/bookings/${bookingId}/date`, {
+      updatedDate,
+    });
     console.log("Date updated:", response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Errore updateBookingDate:", error);
     throw error;
@@ -117,7 +117,7 @@ export async function deleteBooking(bookingId, token) {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error("Errore deleteBooking:", error);
+    throw error;
   }
 }
