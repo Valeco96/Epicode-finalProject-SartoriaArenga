@@ -1,13 +1,54 @@
+/*GENERAL*/
+
+body {
+  font-family: "Playfair Display", sans-serif;
+}
+
 /*NAVBAR*/
 
 #navbar {
   background-color: #141f32;
 }
 
+.navbar .dropdown-menu .dropdown-item:hover {
+  background-color: #1d3058 !important;
+}
+
+.dropdown-menu {
+  background-color: #141f32;
+}
+
+/*BOOKING FORM*/
+
+.bf-container {
+  padding: 15px 20px;
+  max-width: 600px;
+  color: #141f32;
+  text-align: left;
+}
+
+/*PORTFOLIO FORM*/
+
+.portfolio-form-wrapper {
+  margin: 40px auto;
+  width: 80%;
+  text-align: left;
+}
+
+.pf-container {
+  padding: 15px 20px;
+  background-color: whitesmoke;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 20px 60px 20px rgba(65, 50, 100, 0.2);
+  color: #141f32;
+}
+
 /*SINGLEPIECE*/
 
 .piece-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #141f32;
 }
 
 .piece-card:hover {
@@ -16,9 +57,9 @@
 }
 
 .piece-image {
-  /* width: 100%;
-  height: 280px;
-  object-fit: cover; */
+  width: 100%;
+  height: 500px;
+  object-fit: cover; 
   transition: transform 0.4s ease;
 }
 
@@ -32,4 +73,103 @@
   width: 100%;
   height: 300px;
   object-fit: cover;
+}
+
+/*FOOTER*/
+
+.grid {
+  display: grid;
+  grid-gap: 44px;
+  padding: 30px;
+}
+
+.grid-3-col {
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-bottom: 10px;
+}
+
+footer {
+  color: whitesmoke;
+  background-image: linear-gradient(rgba(0, 30, 63, 0.9), rgba(0, 30, 63, 0.9)),
+    url("../assets/home-side.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+footer h3 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+footer p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  opacity: 0.7;
+}
+
+footer ul {
+  padding: 0;
+  line-height: 2em;
+}
+
+footer li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer a {
+  color: rgb(255, 115, 34);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+  opacity: 1;
+}
+
+.bottom-text {
+  padding: 40px 100px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/*footer - media query per tablet */
+@media (max-width: 992px) {
+  .grid-col-3 {
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+  }
+
+  .grid {
+    grid-gap: 30px;
+  }
+
+  .bottom-text {
+    padding: 30px 40px;
+  }
+}
+
+/*footer - media query per telefono */
+@media (max-width: 600px) {
+  .grid-3-col {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  footer h3 {
+    font-size: 18px;
+  }
+
+  footer p {
+    font-size: 14px;
+  }
+
+  .bottom-text {
+    padding: 20px;
+  }
 }

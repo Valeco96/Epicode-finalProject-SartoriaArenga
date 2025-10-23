@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import logoTrasparenteBianco from "../assets/logo-bianco.png";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import "./components.css";
 
 function SNavbar() {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
@@ -47,16 +48,19 @@ function SNavbar() {
                 Richiedi appuntamento
               </Nav.Link>
 
-              {user?.isAdmin && (
+              {/* Area Admin */}
+              {isAuthenticated && user?.isAdmin && (
                 <NavDropdown
                   title="Admin"
                   id="basic-nav-dropdown"
                   className="text-white"
+                  style={{ backgroundColor: "#141f32" }}
                 >
                   <NavDropdown.Item
                     className="text-white"
                     to="/form-portfolio"
                     as={Link}
+                    
                   >
                     Form Portfolio
                   </NavDropdown.Item>
@@ -75,6 +79,7 @@ function SNavbar() {
                   >
                     Prenotazioni
                   </NavDropdown.Item>
+                  <NavDropdown.Divider />
                   <NavDropdown.Item
                     className="text-white"
                     to="/login"

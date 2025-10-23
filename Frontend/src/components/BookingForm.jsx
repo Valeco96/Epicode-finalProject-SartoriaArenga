@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createBooking } from "../data/bookings";
 import { Button, Form, Alert, Spinner } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function BookingForm() {
   const [formData, setFormData] = useState({
@@ -20,6 +22,10 @@ function BookingForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDateChange = (e) => {
+    setFormData((prev) => ({ ...prev, appointmentDate: appointmentDate }));
   };
 
   const handleSubmit = async (e) => {
@@ -66,14 +72,13 @@ function BookingForm() {
   };
 
   return (
-    <div className="container py-4" style={{ maxWidth: "600px" }}>
-
+    <div className="bf-container py-4">
       {message && <Alert variant="success">{message}</Alert>}
       {error && <Alert variant="danger">{error}</Alert>}
 
-      <Form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label>Nome:</Form.Label>
+          <Form.Label className="fw-bold">Nome:</Form.Label>
           <Form.Control
             type="text"
             name="name"
@@ -84,7 +89,7 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Cognome:</Form.Label>
+          <Form.Label className="fw-bold">Cognome:</Form.Label>
           <Form.Control
             type="text"
             name="surname"
@@ -95,7 +100,7 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Email:</Form.Label>
+          <Form.Label className="fw-bold">Email:</Form.Label>
           <Form.Control
             type="email"
             name="email"
@@ -106,7 +111,7 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Telefono:</Form.Label>
+          <Form.Label className="fw-bold">Telefono:</Form.Label>
           <Form.Control
             type="tel"
             name="phone"
@@ -117,7 +122,33 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Data e Ora Appuntamento:</Form.Label>
+          <Form.Label className="fw-bold">Data e Ora Appuntamento:</Form.Label>
+          {/* <DatePicker
+            selected={formData.appointmentDate}
+            onChange={handleDateChange}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            dateFormat="dd/MM/yyyy HH:mm"
+            className="form-control"
+            calendarClassName="custom-calendar"
+            placeholderText="Seleziona data e ora"
+            minDate={new Date()}
+            filterDate={(date) => date.getDay() !== 0} //niente domeniche
+            filterTime={(time) => {
+              const selectedDate = formData.appointmentDate || new Date();
+              const day = selectedDate.getDay();
+              const hour = time.getHours();
+
+              if (day === 6) {
+                //Sabato 10:00 - 13:00
+                return hour >= 10 && hour < 13;
+              } else {
+                //Altri giorni 09:00 - 18:00
+                return hour >= 9 && hour < 18;
+              }
+            }}
+          /> */}
           <Form.Control
             type="datetime-local"
             name="appointmentDate"
@@ -131,7 +162,7 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Servizio Richiesto:</Form.Label>
+          <Form.Label className="fw-bold">Servizio Richiesto:</Form.Label>
           <Form.Select
             name="service"
             value={formData.service}
@@ -145,7 +176,7 @@ function BookingForm() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Messaggio:</Form.Label>
+          <Form.Label className="fw-bold">Messaggio:</Form.Label>
           <Form.Control
             as="textarea"
             name="notes"

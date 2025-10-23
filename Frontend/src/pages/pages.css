@@ -1,5 +1,11 @@
 /*GENERAL*/
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .center-flex {
   display: flex;
   align-items: center;
@@ -8,21 +14,53 @@
 }
 
 .button-navy-background {
-    background-color: #141f32;
-	padding: 10px 15px;
-	color: white;
-	border-radius: 25px;
-    cursor: pointer;
+  background-color: #141f32;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
 }
 
-h2 {
-    font-size: 42px;
+.big-title {
+  font-size: 64px;
+}
+
+.medium-title {
+  font-size: 32px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+@media (max-width: 800px) {
+  .big-title {
+    font-size: 48px;
+  }
+  .medium-title {
+    font-size: 24px;
+  }
+}
+
+.boxSX,
+.boxDX {
+  width: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+@media (max-width: 800px) {
+  .boxDX,
+  .boxSX {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
 }
 
 /*HOMEPAGE*/
 
-.banner {
-  background-image: url("../assets/cover-galleria.jpeg");
+.banner-homepage {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url("../assets/cover-galleria.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -30,6 +68,9 @@ h2 {
   height: 700px;
   top: -1px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tassello-homepage-1 {
@@ -43,13 +84,35 @@ h2 {
   position: relative;
 }
 
-/*ABOUT*/
-
-.banner-about {
-  background-image: url("../assets/pex-vicoli-2.jpg");
+.tassello-homepage-2 {
+  background-image: url("../assets/cover-gblu.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  margin: 0 auto;
+  height: 518px;
+  top: -1px;
+  position: relative;
+}
+
+.tassello-homepage-3 {
+  background-image: url("../assets/home-side.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 518px;
+  top: -1px;
+  position: relative;
+}
+
+/*ABOUT*/
+
+.banner-about {
+  background-image: url("../assets/logo-navy-piccolo.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
   margin: 0 auto;
   height: 300px;
   top: -1px;
@@ -57,6 +120,24 @@ h2 {
 }
 
 /*PORTFOLIOPAGE*/
+
+.portfolio-filter-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.portfolio-filters {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  color: #ffff;
+  background-color: #141f36;
+  cursor: pointer;
+}
 
 .btn-outline-secondary {
   border-radius: 50px;
@@ -86,4 +167,33 @@ h2 {
   height: 400px;
   top: -1px;
   position: relative;
+}
+
+/*RICHIEDI APPUNTAMENTO*/
+
+.banner-appuntamento {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+    url("../assets/cover-gblu.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  height: 400px;
+  top: -1px;
+  position: relative;
+}
+
+/*LOGIN*/
+
+.login-wrapper {
+  margin: 60px auto;
+  width: 60%;
+}
+
+.login-container {
+  padding: 30px 30px;
+  border: 1px solid #141f32;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  color: #141f32;
 }

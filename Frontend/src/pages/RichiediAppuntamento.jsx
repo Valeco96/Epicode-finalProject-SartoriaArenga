@@ -18,8 +18,8 @@ function RichiediAppuntamento() {
       <Container className="my-5">
         <div className="row align-items-center">
           <div className="col-12 col-md-6 mb-4 mb-md-0">
-            <h2 className="mb-4 text-center" style={{ color: "#141f32" }}>
-              📅 Prenota un Appuntamento
+            <h2 className="mb-4 text-center fw-bold" style={{ color: "#141f32" }}>
+              Prenota un Appuntamento
             </h2>
             <BookingForm />
           </div>

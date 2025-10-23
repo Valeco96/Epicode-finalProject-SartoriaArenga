@@ -1,45 +1,52 @@
+import "./components.css";
+
 function Footer() {
   return (
     <>
-      <div className="container">
-        <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <div className="col-md-4 d-flex align-items-center">
-            <a
-              href="/"
-              className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1"
-              aria-label="Bootstrap"
-            >
-              <svg className="bi" width="30" height="24" aria-hidden="true">
-                <use xlinkHref="#bootstrap"></use>
-              </svg>
-            </a>
-            <span className="mb-3 mb-md-0 text-body-secondary">
-              © 2025 Company, Inc
-            </span>
+      <footer className="">
+        <section className="grid grid-3-col">
+          <div>
+            <h3>Informazioni</h3>
+            <ul>
+              <li>Vico Lungo del Gelso 66, Napoli - Italia</li>
+              <li>
+                Email:{" "}
+                <a href="mailto:sartoria.arenga@gmail">
+                  sartoria.arenga@gmail.com
+                </a>
+              </li>
+              <li>
+                Tel: <a href="tel:+393335603412">0039 333 5603412</a>
+              </li>
+            </ul>
           </div>
-          <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-            {" "}
-            <li className="ms-3">
-              <a
-                className="text-body-secondary"
-                href="#"
-                aria-label="Instagram"
-              >
-                <svg className="bi" width="24" height="24" aria-hidden="true">
-                  <use xlinkHref="#instagram"></use>
-                </svg>
-              </a>
-            </li>
-            <li className="ms-3">
-              <a className="text-body-secondary" href="#" aria-label="Facebook">
-                <svg className="bi" width="24" height="24">
-                  <use xlinkHref="#facebook"></use>
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </footer>
-      </div>
+          <div>
+            <h3>Aspetti legali</h3>
+            <ul>
+              <li>Privacy policy</li>
+              <li>Cookie policy</li>
+              <li>Termini e condizioni</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Social Network</h3>
+            <ul>
+              <li>Facebook</li>
+              <li>
+                <a
+                  href="https://www.instagram.com/sartoria_arenga/"
+                  target="_blank"
+                >
+                  Instagram
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <div className="bottom-text">
+          <p>All rights reserved at SARTORIA ARENGA</p>
+        </div>
+      </footer>
     </>
   );
 }
