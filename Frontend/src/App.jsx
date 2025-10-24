@@ -33,7 +33,7 @@ function App() {
           <Route path="/PortfolioForm/:id" element={<PortfolioForm />} />
           <Route path="/admin-storico-lavori" element={<AdminPortfolio />} />
           <Route path="/prenotazioni" element={<AdminBookings />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>
