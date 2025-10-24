@@ -21,6 +21,14 @@ body {
   cursor: pointer;
 }
 
+.button-white-background {
+  background-color: #fff;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
 .big-title {
   font-size: 64px;
 }
@@ -60,7 +68,8 @@ body {
 /*HOMEPAGE*/
 
 .banner-homepage {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url("../assets/cover-galleria.jpeg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+    url("../assets/cover-galleria.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -74,18 +83,18 @@ body {
 }
 
 .tassello-homepage-1 {
-  background-image: url("../assets/giacca-etichetta.jpeg");
+  background-image: url("../assets/IMG_3207.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   margin: 0 auto;
-  height: 518px;
+  height: 520px;
   top: -1px;
   position: relative;
 }
 
 .tassello-homepage-2 {
-  background-image: url("../assets/cover-gblu.jpeg");
+  background-image: url("../assets/Andrea-1.JPG");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -109,12 +118,12 @@ body {
 /*ABOUT*/
 
 .banner-about {
-  background-image: url("../assets/logo-navy-piccolo.jpeg");
+  background-image:  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url("../assets/DSC_0126.JPG");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: bottom;
+  background-position: center;
   margin: 0 auto;
-  height: 300px;
+  height: 400px;
   top: -1px;
   position: relative;
 }
@@ -159,7 +168,8 @@ body {
 /*TRADIZIONE*/
 
 .banner-tradizione {
-  background-image: url("../assets/pex-armeno.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+    url("../assets/pex-armeno.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

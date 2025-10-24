@@ -76,7 +76,7 @@ function BookingForm() {
   };
 
   return (
-    <div className="bf-container py-4">
+    <div className="py-4">
       {/* {message && (
         <Alert className="text-center" variant="success">
           {message}

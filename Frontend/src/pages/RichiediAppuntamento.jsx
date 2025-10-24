@@ -1,5 +1,5 @@
 import BookingForm from "../components/BookingForm";
-import vicolo2 from "../assets/pex-vicoli-2.jpg";
+import clienteSpecchio from "../assets/IMG_3740.jpeg";
 import { Container } from "react-bootstrap";
 
 function RichiediAppuntamento() {
@@ -18,16 +18,21 @@ function RichiediAppuntamento() {
       <Container className="my-5">
         <div className="row align-items-center">
           <div className="col-12 col-md-6 mb-4 mb-md-0">
-            <h2 className="mb-4 text-center fw-bold" style={{ color: "#141f32" }}>
+            <h2
+              className="mb-4 text-center fw-bold"
+              style={{ color: "#141f32" }}
+            >
               Prenota un Appuntamento
             </h2>
-            <BookingForm />
+            <div className="bf-container">
+              <BookingForm />
+            </div>
           </div>
 
           <div className="col-12 col-md-6">
             <img
-              alt="quartieri spagnoli"
-              src={vicolo2}
+              alt="cliente prova giacca allo specchio"
+              src={clienteSpecchio}
               className="img-fluid rounded-4"
             />
           </div>

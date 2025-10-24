@@ -9,7 +9,8 @@ import { AuthContext } from "../context/AuthContext";
 import "./components.css";
 
 function SNavbar() {
-  const { user, isAuthenticated, logout } = useContext(AuthContext);
+  console.log(useContext(AuthContext));
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <header id="navbar">
@@ -28,7 +29,7 @@ function SNavbar() {
           >
             <Nav className="me auto">
               <Nav.Link className="text-white me-3" to="/about" as={Link}>
-                Chi sono
+                La Sartoria
               </Nav.Link>
               <Nav.Link className="text-white me-3" to="/portfolio" as={Link}>
                 Portfolio
@@ -49,7 +50,7 @@ function SNavbar() {
               </Nav.Link>
 
               {/* Area Admin */}
-              {isAuthenticated && user?.isAdmin && (
+              {user?.isAdmin && (
                 <NavDropdown
                   title="Admin"
                   id="basic-nav-dropdown"

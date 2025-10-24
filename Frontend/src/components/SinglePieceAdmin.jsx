@@ -22,8 +22,8 @@ function SinglePieceAdmin({ piece, onClick }) {
   const handleDelete = async () => {
     if (!window.confirm("Sei sicuro di voler eliminare questo lavoro?")) return;
     try {
-      //qui da mettere autenticazione token quendo la dobbiamo inserire
-      const response = await deletePiece(piece._id); //da aggiungere anche il token quando faremo tutto loggato
+      const token = localStorage.getItem("token");
+      const response = await deletePiece(piece._id, token);
       if (response) {
         setIsDeleted(true);
       } else {
@@ -57,7 +57,7 @@ function SinglePieceAdmin({ piece, onClick }) {
           <p className="mb-0">
             Categorie: {piece.category}, {piece.color}, {piece.fabric}
           </p>
-          <div className="mt-auto"> 
+          <div className="mt-auto">
             <Button
               style={{ backgroundColor: "#141f32" }}
               className="my-4 mx-3"
