@@ -1,11 +1,37 @@
 import BookingForm from "../components/BookingForm";
-import coverGalleria from "../assets/cover-galleria.jpeg";
+import { Link } from "react-router";
+import coverPortfolio from "../assets/cover-portfolio.JPG";
 import logoTrasparenteBianco from "../assets/logo-bianco.png";
 import jacketSide from "../assets/home-side.jpeg";
 import "./pages.css";
 import { Container } from "react-bootstrap";
+import andrea from "../assets/Andrea-1.JPG";
+import { useEffect, useRef, useState } from "react";
 
 function Homepage() {
+  const formRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); //smetti di osservare dopo la prima volta
+        }
+      },
+      { threshold: 0.2 } // visiblile quando il 20% del form é nello schermo
+    );
+    if (formRef.current) observer.observe(formRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main>
       <div className="banner-homepage">
@@ -14,118 +40,111 @@ function Homepage() {
           style={{ width: "250px", height: "200px" }}
         />
       </div>
-      <div style={{ color: "#141f32" }}>
-        <h1 className=" py-5">
+      <div className="py-4" style={{ color: "#141f32" }}>
+        <h1 className=" py-5 px-2">
           Sartoria artigianale su misura nel cuore di Napoli
         </h1>
         <div className="d-flex justify-content-center">
-          <div className="d-flex button-navy-background align-items-center">
-            <a target="_self">Prenota un appuntamento</a>
+          <div className="d-flex button-navy-background align-items-center my-3">
+            <a onClick={scrollToForm}>Prenota un appuntamento</a>
           </div>
         </div>
       </div>
 
-      <div className="mt-5" style={{ backgroundColor: "#141f32" }}>
-        <div className="row align-items-center">
-          <div className="col-12 col-md-6 mb-4 mb-md-0">
+      <div
+        className="mt-5 section-fullwidth"
+        style={{ backgroundColor: "#141f36" }}
+      >
+        <div className="section-flex">
+          <div className="text-box">
             <h2 className="pb-5 text-white">Su misura</h2>
-            <p className="pb-5 text-white">
-              We offer a true handmade suit and bespoke service all over the
-              world. When a garment is sewn by hand, its component pieces move
-              with greater freedom, providing more flexibility and range of
-              motion in the finished garment. Feel for yourself the luxury of a
-              handmade bespoke suit. Non sembra andare oltre.
+            <p className="pb-5 px-5 text-white">
+              <strong>La giacca Arenga,</strong> realizzata interamente a mano a
+              Napoli, rappresenta l’eccellenza del{" "}
+              <strong>vero bespoke napoletano.</strong> Ogni dettaglio, dalla
+              spalla “a camicia” alla doppia impuntura a mano, segue i
+              tradizionali passaggi sartoriali. Un capo unico, leggero e
+              impeccabile, pensato per adattarsi perfettamente a chi lo indossa.
             </p>
-            <div className="d-flex align-items-center justify-content-evenly py-4 flex-wrap">
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Dai uno sguardo ai lavori</a>
+            <div className="d-flex justify-content-center button-padding">
+              <Link
+                to="/tradizione-napoletana"
+                style={{ textDecoration: "none" }}
+              >
+                <div className="d-flex button-white-background align-items-center">
+                  <span style={{ color: "#141f36", fontWeight: 600 }}>
+                    Scopri di più
+                  </span>
                 </div>
-              </div>
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Prenota un appuntamento</a>
-                </div>
-              </div>
+              </Link>
             </div>
           </div>
-          <div className="col-12 col-md-6">
-            <div className="tassello-homepage-1"></div>
+          <div className="image-box tassello-homepage-1"></div>
+        </div>
+      </div>
+
+      <div className=" section-fullwidth">
+        <div className="section-flex">
+          <div className="image-box tassello-homepage-2"></div>
+          <div className="text-box">
+            <h2 className="pb-5">La Sartoria</h2>
+            <p className="pb-5 px-5">
+              La Sartoria Arenga, fondata a Napoli da Andrea Arenga nel 2023,
+              unisce la raffinatezza della tradizione sartoriale napoletana a
+              un’eleganza moderna e contemporanea. Frutto di anni di esperienza
+              tra le migliori sartorie di Napoli e una maison internazionale a
+              Milano, offre capi su misura curati in ogni dettaglio. È oggi un
+              punto di riferimento per chi cerca artigianalità, stile e
+              autenticità.
+            </p>
+            <div className="d-flex justify-content-center button-padding">
+              <Link to="/about" style={{ textDecoration: "none" }}>
+                <div className="d-flex button-navy-background align-items-center">
+                  <span style={{ fontWeight: 600 }}>La mia storia</span>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      <div>
-        <div className="row align-items-center">
-          <div className="col-12 col-md-6">
-            <div className="tassello-homepage-2"></div>
-          </div>
-          <div className="col-12 col-md-6 mb-4 mb-md-0">
-            <h2 className="pb-5">L'ispirazione alla tradizione napoletana</h2>
-            <p className="pb-5">
-              We offer a true handmade suit and bespoke service all over the
-              world. When a garment is sewn by hand, its component pieces move
-              with greater freedom, providing more flexibility and range of
-              motion in the finished garment. Feel for yourself the luxury of a
-              handmade bespoke suit. Non sembra andare oltre.
+      <div className="section-fullwidth" style={{ backgroundColor: "#141f36" }}>
+        <div className="section-flex">
+          <div className="text-box">
+            <h2 className="pb-5 text-white">Portfolio</h2>
+            <p className="pb-5 px-5 text-white">
+              Ogni creazione racconta una storia di dedizione, stile e
+              tradizione sartoriale. Nel portfolio troverai una selezione di
+              capi realizzati su misura, dove ogni punto, tessuto e dettaglio
+              rispecchia l’essenza del vero “su misura” napoletano.
             </p>
-            <div className="d-flex align-items-center justify-content-evenly py-4 flex-wrap">
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Dai uno sguardo ai lavori</a>
+            <div className="d-flex justify-content-center button-padding">
+              <Link to="/portfolio" style={{ textDecoration: "none" }}>
+                <div className="d-flex button-white-background align-items-center">
+                  <span style={{ color: "#141f36", fontWeight: 600 }}>
+                    Esplora i nostri lavori
+                  </span>
                 </div>
-              </div>
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Prenota un appuntamento</a>
-                </div>
-              </div>
+              </Link>
             </div>
           </div>
+          <div className="image-box tassello-homepage-3"></div>
         </div>
       </div>
-{/* 
-      <div className="mb-5">
-        <div className="row align-items-center">
-          <div className="col-12 col-md-4">
-            <div className="tassello-homepage-1"></div>
-          </div>
-          <div className="col-12 col-md-4 mb-4 mb-md-0">
-            <h2 className="pb-5">L'ispirazione alla tradizione napoletana</h2>
-            <p className="pb-5">
-              We offer a true handmade suit and bespoke service all over the
-              world. When a garment is sewn by hand, its component pieces move
-              with greater freedom, providing more flexibility and range of
-              motion in the finished garment. Feel for yourself the luxury of a
-              handmade bespoke suit. Non sembra andare oltre.
-            </p>
-            <div className="d-flex align-items-center justify-content-evenly py-4 flex-wrap">
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Dai uno sguardo ai lavori</a>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center">
-                <div className="d-flex button-navy-background align-items-center">
-                  <a target="_self">Prenota un appuntamento</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-4">
-            <div className="tassello-homepage-3"></div>
-          </div>
-        </div>
-      </div> */}
 
-      <div className="d-flex align-items-center">
-        <div style={{ border: "1px solid black", borderRadius: "50%" }}></div>
-      </div>
-      <div className="text-white py-3" style={{ backgroundColor: "#141f32" }}>
-        <h2 className="mb-4 pt-5 text-center">
-          📅 Prenota un Appuntamento
+      <div
+        ref={formRef}
+        className={`py-3 appuntamento-form-wrapper fade-section ${
+          isVisible ? "visible" : ""
+        }`}
+        style={{ color: "#141f36" }}
+      >
+        <h2 className="mb-5 pt-5 fw-bold text-center">
+          Prenota un Appuntamento
         </h2>
-        <BookingForm />
+        <div className="pf-container">
+          <BookingForm />
+        </div>
       </div>
     </main>
   );

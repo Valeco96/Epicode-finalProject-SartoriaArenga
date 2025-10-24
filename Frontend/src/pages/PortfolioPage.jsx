@@ -206,7 +206,7 @@ function PortfolioPage() {
           ))}
         </div> */}
         {/*Griglia lavori*/}
-        <div id="cards-container" className="row g-4 mb-5">
+        <div id="cards-container" className="row g-4 mb-5 mt-2">
           <AnimatePresence>
             {filteredPieces.map((piece) => (
               <motion.div
