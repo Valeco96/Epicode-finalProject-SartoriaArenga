@@ -4,6 +4,8 @@ import { Router } from "express";
 import User from "../models/User.js";
 import { login } from "../controllers/auth.js";
 import { generateJWT } from "../helpers/jwt.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const authRouter = express.Router();
 
@@ -44,24 +46,6 @@ authRouter.post("/register", async (request, response, next) => {
   }
 });
 
- authRouter.post("/login", login);
-// async (request, response, next) => {
-//   const body = request.body;
-
-//   //cerchiamo l'utente con la mail
-//   const user = (await User.findOne({ email: body.email.toLowerCase() })).select(
-//     "+passwordHash"
-//   );
-//   // se non lo troviamo: errore
-//   if (!user) return next(createHttpError.Unauthorized("Credenziali sbagliate"));
-//   // se lo troviamo: verifichiamo la password
-//   if (!(await bcrypt.compare(body.password, user.password)))
-//     return next(createHttpError.Unauthorized("Credenziali sbagliate"));
-
-//   // generare il token per le risposte future
-//   const token = await generateJWT({userId: user._id});
-
-//   response.send({ token });
-// });
+authRouter.post("/login", login);
 
 export default authRouter;

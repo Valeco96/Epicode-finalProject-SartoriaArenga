@@ -35,7 +35,7 @@ export async function login(request, response, next) {
       email: userEmail.email,
       isAdmin: userEmail.isAdmin,
     });
-    console.log(token);
+    console.log("Token generato:", token);
     return response
       .status(200)
       .json({ message: "Accesso effettuato con successo", token: token });

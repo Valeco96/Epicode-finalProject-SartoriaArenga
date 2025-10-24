@@ -1,52 +1,122 @@
 import { createContext, useEffect, useState } from "react";
+import { login as loginUser } from "../data/auth";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+  user: null,
+  token: null,
+  login: () => {},
+  logout: () => {},
+  loading: false,
+});
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [loading, setLoading] = useState(false);
 
-  const decodeToken = (token) => {
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload;
-    } catch (error) {
-      console.error("Errore nel decodificare il token:", error);
-      return null;
-    }
-  };
-
-  const login = (token) => {
-    setToken(token);
-    setIsAuthenticated(true);
-    localStorage.setItem("token", token);
-
-    const decoded = decodeToken(token);
-    setUser(decoded); //es. {email, isAdmin, id}};
-  };
-
-  const logout = () => {
-    setToken(null);
-    setIsAuthenticated(false);
-    setUser(false);
-    localStorage.removeItem("token");
-  };
-
-  //Al primo caricamento controlla se esiste un token nel localStorage
+  // Carica utente e token dal localStorage all'avvio
   useEffect(() => {
-    if (token) {
-      const decoded = decodeToken(token);
-      setUser(decoded);
-      setIsAuthenticated(true);
+    const savedUser = localStorage.getItem("user");
+    const savedToken = localStorage.getItem("token");
+
+    if (savedUser && savedToken) {
+      setUser(JSON.parse(savedUser));
+      setToken(savedToken);
     }
   }, []);
 
+  // Funzione di login
+  const login = async (email, password) => {
+    setLoading(true);
+    try {
+      const data = await loginUser(email, password);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+
+      // Decodifica user dal JWT
+      const payload = JSON.parse(atob(data.token.split(".")[1]));
+      const userData = {
+        id: payload.id,
+        email: payload.email,
+        isAdmin: payload.isAdmin,
+      };
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Funzione di logout
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  };
+
   return (
-    <AuthContext.Provider
-      value={{ token, isAuthenticated, user, login, logout }}
-    >
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
+
+// import { createContext, useEffect, useState } from "react";
+// import { login as loginUser } from "../data/auth";
+
+// export const AuthContext = createContext();
+// console.log(AuthContext);
+
+// export function AuthProvider({ children }) {
+//   const [user, setUser] = useState(null);
+//   const [token, setToken] = useState(localStorage.getItem("token") || null);
+//   const [loading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     const savedUser = localStorage.getItem("user");
+//     const savedToken = localStorage.getItem("token");
+
+//     if (savedUser && savedToken) {
+//       setUser(JSON.parse(savedUser));
+//       setToken(savedToken);
+//     }
+//   }, []);
+
+//   //Salva il token e decodifica utente dal JWT (opzionale)
+//   const login = async (email, password) => {
+//     setLoading(true);
+
+//     try {
+//       const data = await loginUser(email, password);
+//       setToken(data.token);
+//       localStorage.setItem("token", data.token);
+
+//       //Decodifica user dal token
+//       const payload = JSON.parse(atob(data.token.split(".")[1]));
+//       setUser({
+//         id: payload.id,
+//         email: payload.email,
+//         isAdmin: payload.isAdmin,
+//       });
+//     } catch (error) {
+//       throw error;
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const logout = () => {
+//     setUser(null);
+//     setToken(null);
+//     localStorage.removeItem("token");
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// }
