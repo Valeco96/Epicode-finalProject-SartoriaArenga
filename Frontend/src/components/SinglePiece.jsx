@@ -28,11 +28,6 @@ function SinglePiece({ piece, onClick }) {
             Caratteristiche: {piece.category} {piece.color} {piece.fabric}{" "}
             {piece.season}
           </p>
-          <div className="mt-auto">
-            <Button className="my-4" style={{ backgroundColor: "#141f36" }}>
-              OMG deve essere mia!
-            </Button>
-          </div>
         </div>
       </div>
     </>

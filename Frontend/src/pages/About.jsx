@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
-import andrea from "../assets/Andrea-4.JPG";
-import andrea2 from "../assets/Andrea-2.JPG"
+import andrea from "../assets/Andrea-1.JPG";
+import etichetta from "../assets/Arenga.JPG"
 
 function About() {
   return (
@@ -8,14 +8,15 @@ function About() {
       <div className="banner-about">
         <h1 className="center-flex text-white big-title">Sartoria Arenga</h1>
       </div>
-      <Container className="my-5">
+      
+      <Container className="mt-5">
         <div className="row align-items-center">
           <div className="col-12 col-md-6">
             <img
               alt="Andrea - Sartoria Arenga"
-              src={andrea2}
+              src={andrea}
               className="img-fluid rounded-4"
-              style={{ height: "400px", width: "100%" }}
+              
             />
           </div>
 
@@ -59,9 +60,9 @@ function About() {
           <div className="col-12 col-md-6">
             <img
               alt="Andrea - Sartoria Arenga"
-              src={andrea}
+              src={etichetta}
               className="img-fluid rounded-4"
-              style={{ height: "400px", width: "100%" }}
+              
             />
           </div>
         </div>

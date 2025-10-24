@@ -171,10 +171,10 @@ body {
 
 .banner-about {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-    url("../assets/Andrea-7.JPG");
+    url("../assets/Andrea-3.JPG");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: bottom center;
   margin: 0 auto;
   height: 400px;
   top: -1px;

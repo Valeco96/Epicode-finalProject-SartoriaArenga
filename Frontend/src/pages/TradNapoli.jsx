@@ -43,14 +43,14 @@ function TradNapoli() {
         <div className=" section-fullwidth">
           <div className="section-flex">
             <div className="text-box">
-              <h2 className="pb-4 pt-3">Spalla "a camicia"</h2>
-              <p className="pb-5 px-5">
+              <h2 className="pb-3 pt-3">Spalla "a camicia"</h2>
+              <p className="pb-4 px-5">
                 La manica è cucita come una camicia, senza imbottitura, per dare
                 maggiore naturalezza e libertà nei movimenti. - Rollino morbido
                 (“manica a mappina”): la manica termina con una leggera
                 arricciatura che conferisce morbidezza e uno stile rilassato.
               </p>
-              <h2 className="pb-4">Rollino morbido</h2>
+              <h2 className="pb-3">Rollino morbido</h2>
               <p className="pb-3 px-5">
                 Detto anche "manica a mappina": la manica termina con una
                 leggera arricciatura che conferisce morbidezza e uno stile
@@ -68,12 +68,12 @@ function TradNapoli() {
           <div className="section-flex">
             <div className="image-box tassello-tradizione-3"></div>
             <div className="text-box">
-              <h2 className="pb-4 pt-3 text-white">Revers ampi</h2>
-              <p className="pb-5 px-5 text-white">
+              <h2 className="pb-3 pt-3 text-white">Revers ampi</h2>
+              <p className="pb-4 px-5 text-white">
                 Largo rever classico, spesso a lancia, che enfatizza l’eleganza
                 della linea.
               </p>
-              <h2 className="pb-4 text-white">Doppia impuntura a mano</h2>
+              <h2 className="pb-3 text-white">Doppia impuntura a mano</h2>
               <p className="pb-3 px-5 text-white">
                 Cuciture visibili realizzate a mano per valorizzare
                 l’artigianalità del capo.
@@ -85,7 +85,7 @@ function TradNapoli() {
         <div className=" section-fullwidth">
           <div className="section-flex">
             <div className="text-box">
-              <h2 className="pb-5 pt-5">Tasche a toppa</h2>
+              <h2 className="pb-4 pt-5">Tasche a toppa</h2>
               <p className="pb-5 px-5">
                 Cucite esternamente, aggiungono un tocco sportivo e artigianale
                 al capo.
