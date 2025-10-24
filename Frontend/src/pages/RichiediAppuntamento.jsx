@@ -1,5 +1,5 @@
 import BookingForm from "../components/BookingForm";
-import clienteSpecchio from "../assets/IMG_3740.jpeg";
+import clienteSpecchio from "../assets/foto-cliente.jpeg";
 import { Container } from "react-bootstrap";
 
 function RichiediAppuntamento() {
