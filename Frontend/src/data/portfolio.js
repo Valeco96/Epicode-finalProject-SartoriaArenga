@@ -13,6 +13,7 @@ export async function createPiece(newPiece, token) {
   try {
     const response = await axios.post(`/api/portfolio`, newPiece, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -65,13 +66,31 @@ export const updateImage = async (id, imageFile, token) => {
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
+
     const response = await axios.patch(`/api/portfolio/${id}/image`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Errore API updateImage:", error.response || error);
+    throw error;
   }
 };
+
+// export const updateImage = async (id, imageFile, token) => {
+//   try {
+//     const formData = new FormData();
+//     formData.append("image", imageFile);
+//     const response = await axios.patch(`/api/portfolio/${id}/image`, formData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };

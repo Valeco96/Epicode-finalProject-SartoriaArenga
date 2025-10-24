@@ -34,9 +34,9 @@ portfolioRouter.put(
 );
 portfolioRouter.patch(
   "/:imageId/image",
+  uploadCloudinary.single("image"),
   verifyToken,
   isAdmin,
-  uploadCloudinary.single("image"),
   updateImage
 );
 portfolioRouter.delete("/:id", verifyToken, isAdmin, deletePiece);

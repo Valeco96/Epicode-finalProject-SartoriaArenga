@@ -35,6 +35,7 @@ export async function getAllPieces(request, response) {
 }
 
 export async function createPiece(request, response) {
+  console.log("request.file:", request.file);
   try {
     const {
       title,
@@ -145,7 +146,10 @@ export async function editPiece(request, response) {
     } = request.body || {};
 
     //Se ho un file cloudinary prendo l'URL
-    const imageUrl = request.file ? request.file.path : image?.trim();
+    const imageUrl =
+      request.file?.path || (typeof image === "string" ? image.trim() : "");
+    console.log("request.file:", request.file);
+    console.log("request.body.image:", image);
 
     //Creo l'oggetto di aggiornamento solo con i campi presenti
     const updateData = {

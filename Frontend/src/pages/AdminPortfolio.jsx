@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import PortfolioForm from "../components/PortfolioForm";
 import { getAllPieces } from "../data/portfolio";
 import { Col, Container, Row } from "react-bootstrap";
 import SinglePieceAdmin from "../components/SinglePieceAdmin";
@@ -33,11 +32,6 @@ function AdminPortfolio() {
 
   return (
     <>
-      {/* <PortfolioForm
-        selectedPiece={selectedPiece}
-        onFinishEdit={() => setSelectedPiece(null)}
-      /> */}
-
       {/*Griglia lavori*/}
       <Container className="mb-4">
         <h1 className="my-5 p-3 fw-bold">Storico dei lavori pubblicati</h1>
@@ -55,17 +49,6 @@ function AdminPortfolio() {
             ))}
         </Row>
       </Container>
-
-      {/* <div id="cards-container-adminportfolio" className="row g-4">
-        {filteredPieces.map((piece) => (
-          <option key={piece._id} className="col-12 col-sm-6 col-md-4">
-            <SinglePiece
-              piece={piece}
-              onClick={() => setSelectedPiece(piece)}
-            />
-          </option>
-        ))}
-      </div> */}
     </>
   );
 }

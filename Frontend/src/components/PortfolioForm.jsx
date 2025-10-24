@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Alert, Spinner } from "react-bootstrap";
 import {
   createPiece,
   editPiece,
-  getAllPieces,
   getSinglePiece,
+  updateImage,
 } from "../data/portfolio"; // importa le funzioni API corrette
 import { useNavigate, useParams } from "react-router";
 import SinglePieceAdmin from "./SinglePieceAdmin";
+import { AuthContext } from "../context/AuthContext";
 
 function PortfolioForm() {
   const { id } = useParams();
   const isEdited = !!id; //true se stiamo modificando il <lavoro />
   const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -55,16 +57,10 @@ function PortfolioForm() {
 
   //Precompilazione dei dati se stiamo modificando
   useEffect(() => {
-    if (isEdited) {
+    if (isEdited && token) {
       const fetchData = async () => {
         try {
-          const data = await getSinglePiece(id); //da inserire anche il token om im secondo momento
-          console.log("Lavoro ricevuto", data);
-
-          if (!data) {
-            console.error("Nessun lavoro trovato.");
-            return;
-          }
+          const data = await getSinglePiece(id, token);
 
           setFormData({
             title: data.title || "",
@@ -76,11 +72,12 @@ function PortfolioForm() {
           });
         } catch (error) {
           console.error("Errore nel caricamento del lavoro:", error);
+          setError("Errore nel caricamento del lavoro.");
         }
       };
       fetchData();
     }
-  }, [id, isEdited]);
+  }, [id, isEdited, token]);
 
   const handleChange = (event) => {
     setFormData({
@@ -89,44 +86,60 @@ function PortfolioForm() {
     });
   };
 
+  const handleChangeImage = async (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+
+    if (isEdited && selectedImage) {
+      try {
+        setLoading(true);
+        setMessage("");
+        setErrorMessage("");
+
+        console.log("Aggiornamento immagine con PATCH:", selectedImage);
+
+        const response = await updateImage(id, selectedImage, token);
+        console.log("Immagine aggiornata:", response);
+        setMessage("Immagine aggiornata con successo!");
+      } catch (error) {
+        console.error("Errore aggiornamento immagine:", error);
+        setErrorMessage("Errore nell'aggiornamento dell'immagine");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setErrorMessage("");
+    setMessage("");
 
     try {
+      console.log("Immagine selezionata:", image);
       //Creo un FormData per inviare tutto insieme
       const formToSend = new FormData();
 
       for (const key in formData) {
         formToSend.append(key, formData[key]);
       }
-
       if (image) {
         formToSend.append("image", image);
       }
-
       //Scelgo il metodo corretto (POST o PUT)
-      let response;
-      if (!isEdited) {
-        response = await fetch("http://localhost:2000/api/portfolio", {
-          method: "POST",
-          body: formToSend, // ❗ niente headers JSON qui
-        });
+      let responseData;
+
+      if (isEdited) {
+        responseData = await editPiece(id, formToSend, token);
+
+        setMessage("Lavoro modificato con successo!");
       } else {
-        response = await fetch(`http://localhost:2000/api/portfolio/${id}`, {
-          method: "PUT",
-          body: formToSend,
-        });
+        responseData = await createPiece(formToSend, token);
+        setMessage("Lavoro creato con successo!");
       }
 
-      //Gestione della risposta
-      if (!response.ok) {
-        throw new Error("Errore nella creazione o modifica del lavoro.");
-      }
-
-      const data = await response.json();
-      console.log("Lavoro salvato:", data);
-
+      console.log("Lavoro salvato:", responseData);
       alert(
         isEdited
           ? "Lavoro modificato con successo!"
@@ -139,23 +152,6 @@ function PortfolioForm() {
     } finally {
       setLoading(false);
     }
-
-    // try {
-    //   let data;
-
-    //   if (!isEdited) {
-    //     const response = await createPiece(formData);
-    //     data = response;
-    //     console.log("Lavoro creato:", data);
-    //     alert("Lavoro creato con successo!");
-    //     navigate("/portfolio");
-    //   } else {
-    //     const response = await editPiece(id, formData);
-    //     data = response;
-    //     console.log("Lavoro modificato:", data);
-    //     alert("Lavoro modificato con successo!");
-    //     navigate("/portfolio");
-    //   }
 
     //   //Aggiornamento dell'immagine
     //   if (image) {
@@ -190,6 +186,7 @@ function PortfolioForm() {
       category: "",
       color: "",
       fabric: "",
+      season: "",
     });
     setImage(null);
     setMessage("");
@@ -328,21 +325,9 @@ function PortfolioForm() {
               <Form.Control
                 type="file"
                 placeholder="Carica foto"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={handleChangeImage}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-4">
-            <Form.Check
-              name="visible"
-              type="checkbox"
-              label="Visibile nel portfolio"
-              checked={formData.visible}
-              onChange={(e) =>
-                setFormData({ ...formData, visible: e.target.checked })
-              }
-            />
-          </Form.Group> */}
 
             <div className="d-flex gap-4 mt-5  flex-wrap justify-content-center">
               <Button
@@ -386,125 +371,3 @@ function PortfolioForm() {
 }
 
 export default PortfolioForm;
-
-//   const [title, setTitle] = useState("");
-//   const [description, setDescription] = useState("");
-//   const [category, setCategory] = useState("Scegli tra le categorie");
-//   const [image, setImage] = useState("");
-//   const [visible, setVisible] = useState(false);
-//   const [errorMessage, setErrorMessage] = useState("");
-
-//   const categories = [
-//     "stile",
-//     "quotidiano",
-//     "evento",
-//     "matrimonio",
-//     "giacca",
-//     "pantalone",
-//     "completo",
-//   ];
-
-//   const manageSubmit = async (event) => {
-//     event.preventDefault();
-//     console.log("Mi hai submittato");
-
-//     //validazione
-//     if (!title || !image) {
-//       return setErrorMessage(
-//         "I campi titolo e immagine devono essere compilati"
-//       );
-//     }
-
-//     try {
-//       const formData = new FormData();
-//       formData.append("title", title);
-//       formData.append("description", description);
-//       formData.append(
-//         "categories",
-//         category === "Scegli tra le categorie" ? "" : category
-//       );
-//       formData.append("visible", visible);
-//       formData.append("image", image);
-
-//       const response = await fetch("http://localhost:2000/api/portfolio", {
-//         method: "POST",
-//         body: formData,
-//       });
-
-//       if (response.ok) {
-//         throw new Error("Errore durante la creazione del lavoro.");
-//       }
-
-//       const data = await response.json();
-//       console.log("Lavoro con immagine creato con successo!", data);
-//     } catch (error) {
-//       console.error("Errore: ", error);
-//       setErrorMessage("Errore durante l'invio del lavoro.");
-//     }
-//   };
-
-//   return (
-//     <>
-//       <h1 className="mb-5">👔 Aggiorna / Modifica Portfolio</h1>
-
-//       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-
-//       <Form noValidate onSubmit={manageSubmit}>
-//         <Form.Group className="mb-3">
-//           <Form.Label>Titolo</Form.Label>
-//           <Form.Control
-//             placeholder="Titolo lavoro"
-//             value={title}
-//             onChange={(event) => setTitle(event.target.value)}
-//           />
-//         </Form.Group>
-//         <Form.Group className="mb-3">
-//           <Form.Label>Descrizione</Form.Label>
-//           <Form.Control
-//             placeholder="Descrizione - min. 10 caratteri"
-//             value={description}
-//             onChange={(event) => setDescription(event.target.value)}
-//           />
-//         </Form.Group>
-//         <Form.Group className="mb-3">
-//           <Form.Label>Categoria</Form.Label>
-//           <Form.Select
-//             value={category}
-//             onChange={(event) => setCategory(event.target.value)}
-//           >
-//             <option>Scegli tra le categorie</option>
-//             {categories.map((category) => (
-//               <option key={category} value={category}>
-//                 {category}
-//               </option>
-//             ))}
-//           </Form.Select>
-//         </Form.Group>
-
-//         <Form.Group className="mb-3">
-//           <Form.Label>Immagine</Form.Label>
-//           <Form.Control
-//             type="file"
-//             placeholder="Carica foto"
-//             value={image}
-//             onChange={(event) => setImage(event.target.files[0])}
-//           />
-//         </Form.Group>
-//         <Form.Group className="mb-3">
-//           <Form.Check
-//             type="checkbox"
-//             label="Visibile"
-//             checked={visible}
-//             onChange={(event) => setVisible(!visible)}
-//           />
-//         </Form.Group>
-//         <Button variant="primary" type="submit">
-//           Submit
-//         </Button>
-//         <Button variant="warning" type="button">
-//           Reset
-//         </Button>
-//       </Form>
-//     </>
-//   );
-// }

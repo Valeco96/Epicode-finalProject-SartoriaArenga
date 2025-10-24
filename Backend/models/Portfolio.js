@@ -44,6 +44,7 @@ const portfolioSchema = new Schema(
     image: {
       type: String,
       required: true,
+      trim:true,
     },
     imagePublicId: {
       //Id di Cloudinary per eventuale eliminazione
