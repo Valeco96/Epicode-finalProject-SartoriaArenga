@@ -11,14 +11,8 @@ export function isAdmin(request, response, next) {
         .json({ message: "Accesso negato. Solo admin autorizzati." });
     }
 
-    //Se e' admin puo' passare
-
     next();
   } catch (error) {
-    console.error(
-      "L'utente non risulta come admin/Accesso negato",
-      error.message
-    );
     response.status(500).json({ message: "Errore del server" });
   }
 }

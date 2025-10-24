@@ -31,7 +31,6 @@ const bookingSchema = new Schema(
           const appointment = new Date(value);
           const now = new Date();
 
-          // Dev’essere almeno 1 ora nel futuro
           if (appointment.getTime() < now.getTime() + 60 * 60 * 1000)
             return false;
 

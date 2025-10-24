@@ -9,16 +9,14 @@ function AdminPortfolio() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Fetching pieces...");
-    let isMounted = true; // flag per evitare aggiornamenti su component smontato
+    let isMounted = true; // Flag per evitare aggiornamenti su component smontato
 
     async function fetchPieces() {
       try {
         const piecesFromApi = await getAllPieces();
-        console.log("Pieces fetched from API: ", piecesFromApi);
+        
         if (isMounted) setPieces(piecesFromApi);
       } catch (error) {
-        console.error("Errore nel fetch dei lavori:", error);
         setError("Errore nel recupero dei lavori.");
       }
     }
@@ -26,7 +24,7 @@ function AdminPortfolio() {
     fetchPieces();
 
     return () => {
-      isMounted = false; //impedisce duplicati durante double-mount in dev
+      isMounted = false; //Impedisce duplicati durante double-mount in dev
     };
   }, []);
 

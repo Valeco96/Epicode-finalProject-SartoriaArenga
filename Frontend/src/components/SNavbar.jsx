@@ -9,7 +9,6 @@ import { AuthContext } from "../context/AuthContext";
 import "./components.css";
 
 function SNavbar() {
-  console.log(useContext(AuthContext));
   const { user, logout } = useContext(AuthContext);
 
   return (

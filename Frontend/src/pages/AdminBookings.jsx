@@ -14,7 +14,6 @@ function AdminBookings() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState("all");
-  //const [filterDate, setFilterDate] = useState("any");
   const statusMessage = {
     confirmed: "😎 Email di prenotazione confermata inviata al cliente!",
     cancelled: "❌ Prenotazione annullata",
@@ -33,9 +32,7 @@ function AdminBookings() {
 
       const data = await getAllBookings(token);
       setBookings(data);
-      console.log("Prenotazioni caricate:", data);
     } catch (error) {
-      console.error(error);
       setError("Errore durante il caricamento delle prenotazioni.");
     } finally {
       setLoading(false);
@@ -56,14 +53,8 @@ function AdminBookings() {
       ? bookings
       : bookings.filter((b) => b.status === filterStatus);
 
-  // const filteredBookingsDate =
-  //   filterDate === "any"
-  //     ? bookings
-  //     : bookings.filter((d) => d.date === filterDate);
-
-  //Apertura modal modifica
+  //Apertura del Modal di modifica
   const handleEdit = (booking) => {
-    console.log("Booking cliccato:", booking);
     setSelectedBooking({
       ...booking,
       status: booking.status || "pending",
@@ -80,34 +71,9 @@ function AdminBookings() {
         throw new Error("Prenotazione non valida o mancante.");
       }
 
-      // //Controllo se é stato richiesto un cambio di data o ora
-      // if (
-      //   selectedBooking.status === "change-date" ||
-      //   selectedBooking.status === "change-time"
-      // ) {
-      //   console.log("Invio richiesta di modifica data/ora..");
-      //   const response = await updateBookingDate(selectedBooking._id, {
-      //     //appointmentDate: selectedBooking.appointmentDate,
-      //     notes: selectedBooking.notes,
-      //   });
-      //   alert("Email di richiesta cambio inviata.");
-      //   console.log("Risposta updateBookingDate:", response);
-      // } else {
-      //   //Aggiornamento dello stato (pending + confirmed + completed)
-      //   console.log("Invio richiesta di cambio stato..");
-      //   const response = await updateBookingStatus(selectedBooking._id, {
-      //     status: selectedBooking.status,
-      //     notes: selectedBooking.notes,
-      //   });
-      //   console.log("Risposta updateBookingStatus:", response);
-      //   alert("Prenotazione confermata/completata.");
-      // }
-
-      //Chiudo il modal e aggiorno la lista
       setShowModal(false);
       fetchBookings();
 
-      //Passo l'oggetto con status e notes all'API
       await updateBookingStatus(
         selectedBooking._id,
         {
@@ -117,18 +83,13 @@ function AdminBookings() {
         token
       );
 
-      // await updateBookingDate(selectedBooking._id, {
-      //   date: selectedBooking.date,
-      // });
-
       alert(
         statusMessage[selectedBooking.status] ||
           "Stato aggiornato con successo!"
       );
 
-      fetchBookings(); //per ricaricare la lista aggiornata
+      fetchBookings();
     } catch (error) {
-      console.error("Errore nella modifica della prenotazione:", error);
       alert("Errore nel salvataggio delle modifiche della prenotazione.");
     }
   };
@@ -145,7 +106,6 @@ function AdminBookings() {
       setBookings((prev) => prev.filter((b) => b._id !== bookingId));
       alert("Prenotazione eliminata con successo!");
     } catch (error) {
-      console.error(error);
       setError("Errore nella cancellazione della prenotazione.");
     } finally {
       setLoading(false);
@@ -271,26 +231,8 @@ function AdminBookings() {
                       Richiedi cambio ora/data
                     </option>
                     <option value="completed">Completata</option>
-                    {/* <option value="change-time">Richiedi cambio ora</option>
-                    <option value="change-date">Richiedi cambio data</option> */}
                   </Form.Select>
                 </Form.Group>
-
-                {/* <Form.Group className="mb-3">
-                  <Form.Label>Richiedi un cambio per data/ora</Form.Label>
-                  <Form.Select
-                    value={selectedBooking.changeRequest}
-                    onChange={(e) =>
-                      setSelectedBooking({
-                        ...selectedBooking,
-                        changeRequest: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="">--Nessuna richiesta --</option>
-                    
-                  </Form.Select>
-                </Form.Group> */}
 
                 <Form.Group className="mb-3">
                   <Form.Label>Note interne</Form.Label>

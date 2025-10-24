@@ -12,7 +12,6 @@ export async function getAllBookings(request, response) {
     const bookings = await Booking.find().sort({ appointmentDate: 1 });
     response.status(200).json(bookings);
   } catch (error) {
-    console.error("Errore nel recupero delle prenotazioni:", error.message);
     response.status(500).json({
       message: "Errore del server nel recupero delle prenotazioni.",
       error: error.message,
@@ -89,7 +88,7 @@ export async function createBooking(request, response) {
 
     const savedBooking = await newBooking.save();
 
-    //Invio email di conferma al cliente
+    //Invia email di conferma al cliente
     await sendReceivedBooking({
       to: indirizzoEmail,
       name: nome,
@@ -115,22 +114,7 @@ export async function createBooking(request, response) {
         "Prenotazione avvenuta con successo! Ti abbiamo inviato una conferma via email.",
       booking: savedBooking,
     });
-
-    console.log(
-      {
-        nome,
-        cognome,
-        indirizzoEmail,
-        telefono,
-        appuntamento,
-        servizio,
-        note,
-        stato,
-      },
-      "Prenotazione creata e email inviata con successo!"
-    );
   } catch (error) {
-    console.log("Errore nella creazione della prenotazione:", error.message);
     response.status(500).json({
       message: "Errore del server nella creazione della prenotazione.",
       error: error.message,
@@ -154,7 +138,6 @@ export async function getSingleBooking(request, response) {
 
     response.status(200).json(booking);
   } catch (error) {
-    console.error("Errore nel recupero della prenotazione", error.message);
     response.status(500).json({
       message: "Errore del server nel recupero della prenotazione:",
       error: error.message,
@@ -167,7 +150,6 @@ export async function updateBookingStatus(request, response) {
     const { id } = request.params;
     const { status } = request.body;
 
-    //Controllo se lo status é valido
     const validStatuses = [
       "pending",
       "confirmed",
@@ -192,7 +174,7 @@ export async function updateBookingStatus(request, response) {
         .json({ message: "Prenotazione non trovata." });
     }
 
-    //Invio email automatica basata sullo stato
+    //Invia email automatica basata sullo stato
     if (status === "confirmed") {
       await sendConfirmationEmail({
         to: booking.email,
@@ -200,7 +182,6 @@ export async function updateBookingStatus(request, response) {
         date: booking.appointmentDate,
         service: booking.service,
       });
-      console.log(`Email di conferma inviata a ${booking.email}`);
     }
 
     if (status === "changeRequest") {
@@ -210,16 +191,12 @@ export async function updateBookingStatus(request, response) {
         date: booking.appointmentDate,
         service: booking.service,
       });
-      console.log(
-        `Email di richiesta cambio ora o data inviata a ${booking.email}`
-      );
     }
 
     response
       .status(200)
       .json({ message: "Status aggiornato correttamente!", booking: booking });
   } catch (error) {
-    console.error("Errore nella modifica dello status:", error.message);
     response.status(500).json({
       message: "Errore nell'aggiornamento dello status a livello del server.",
     });
@@ -270,7 +247,6 @@ export async function updateBookingDate(request, response) {
       booking: updateBooking,
     });
   } catch (error) {
-    console.error("Errore durante l'aggiiornamento della data:", error.message);
     response.status(500).json({
       message: "Errore del server durante l'aggiornamento della data.",
       error: error.message,
@@ -298,7 +274,6 @@ export async function deleteBooking(request, response) {
       booking: deletedBooking,
     });
   } catch (error) {
-    console.error("Errore nell'eliminazione della prenotazione.");
     response.status(500).json({
       message: "Errore del server nell'eliminazione della prenotazione:",
       error: error.message,

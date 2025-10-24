@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { Alert, Spinner } from "react-bootstrap";
 import {
   createPiece,
@@ -8,12 +8,11 @@ import {
   updateImage,
 } from "../data/portfolio"; // importa le funzioni API corrette
 import { useNavigate, useParams } from "react-router";
-import SinglePieceAdmin from "./SinglePieceAdmin";
 import { AuthContext } from "../context/AuthContext";
 
 function PortfolioForm() {
   const { id } = useParams();
-  const isEdited = !!id; //true se stiamo modificando il <lavoro />
+  const isEdited = !!id; //true se si tratta di modifica del lavoro
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
@@ -55,7 +54,7 @@ function PortfolioForm() {
   ];
   const seasons = ["quattro stagioni", "estate", "inverno"];
 
-  //Precompilazione dei dati se stiamo modificando
+  //Precompilazione dei dati se è in fase di modifica
   useEffect(() => {
     if (isEdited && token) {
       const fetchData = async () => {
@@ -71,7 +70,6 @@ function PortfolioForm() {
             season: data.season || "",
           });
         } catch (error) {
-          console.error("Errore nel caricamento del lavoro:", error);
           setError("Errore nel caricamento del lavoro.");
         }
       };
@@ -96,13 +94,9 @@ function PortfolioForm() {
         setMessage("");
         setErrorMessage("");
 
-        console.log("Aggiornamento immagine con PATCH:", selectedImage);
-
         const response = await updateImage(id, selectedImage, token);
-        console.log("Immagine aggiornata:", response);
         setMessage("Immagine aggiornata con successo!");
       } catch (error) {
-        console.error("Errore aggiornamento immagine:", error);
         setErrorMessage("Errore nell'aggiornamento dell'immagine");
       } finally {
         setLoading(false);
@@ -117,8 +111,7 @@ function PortfolioForm() {
     setMessage("");
 
     try {
-      console.log("Immagine selezionata:", image);
-      //Creo un FormData per inviare tutto insieme
+      //Creazione di un FormData per inviare tutto insieme
       const formToSend = new FormData();
 
       for (const key in formData) {
@@ -127,7 +120,7 @@ function PortfolioForm() {
       if (image) {
         formToSend.append("image", image);
       }
-      //Scelgo il metodo corretto (POST o PUT)
+      //Sceglie tra POST e PUT
       let responseData;
 
       if (isEdited) {
@@ -139,7 +132,6 @@ function PortfolioForm() {
         setMessage("Lavoro creato con successo!");
       }
 
-      console.log("Lavoro salvato:", responseData);
       alert(
         isEdited
           ? "Lavoro modificato con successo!"
@@ -147,35 +139,10 @@ function PortfolioForm() {
       );
       navigate("/portfolio");
     } catch (error) {
-      console.error("Errore nel caricamento del lavoro:", error);
       setMessage("Errore nel caricamento del lavoro.");
     } finally {
       setLoading(false);
     }
-
-    //   //Aggiornamento dell'immagine
-    //   if (image) {
-    //     const formImage = new FormData();
-    //     formImage.append("image", image);
-
-    //     const imageRes = await fetch(
-    //       `http://localhost:2000/api/portfolio/${data._id}/image`,
-    //       {
-    //         method: "PATCH",
-    //         body: formImage,
-    //       }
-    //     );
-
-    //     if (!imageRes.ok)
-    //       throw new Error("Errore nell'aggiornamento dell'immagine.");
-    //     const imageData = await imageRes.json();
-    //     setFormData((prev) => ({ ...prev, image: imageData.image }));
-    //     setMessage("Immagine aggiornata con successo!");
-    //   }
-    // } catch (error) {
-    //   console.error("Errore nel caricamento del lavoro:", error);
-    //   setMessage("Errore nel caricamento del lavoro.");
-    // }
   };
 
   //Reset form
@@ -192,28 +159,6 @@ function PortfolioForm() {
     setMessage("");
     setErrorMessage("");
   };
-
-  // useEffect(() => {
-  //   console.log("Fetching pieces...");
-  //   let isMounted = true; // flag per evitare aggiornamenti su component smontato
-
-  //   async function fetchPieces() {
-  //     try {
-  //       const piecesFromApi = await getAllPieces();
-  //       console.log("Pieces fetched from API: ", piecesFromApi);
-  //       if (isMounted) setPieces(piecesFromApi);
-  //     } catch (error) {
-  //       console.error("Errore nel fetch dei lavori:", error);
-  //       setError("Errore nel recupero dei lavori.");
-  //     }
-  //   }
-
-  //   fetchPieces();
-
-  //   return () => {
-  //     isMounted = false; //impedisce duplicati durante double-mount in dev
-  //   };
-  // }, []);
 
   return (
     <>
@@ -352,22 +297,8 @@ function PortfolioForm() {
           </Form>
         </div>
       </div>
-
-      {/* Griglia lavori
-      <Container>
-        <h2 className="p-4">Storico dei lavori pubblicati</h2>
-        <Row className="align-items-stretch">
-          {pieces && pieces.length === 0 && <p>Nessun lavoro disponibile</p>}
-          {pieces &&
-            pieces.map((piece) => (
-              <Col key={piece._id} className="mb-4" sm={12} md={6} lg={4}>
-                <SinglePieceAdmin key={piece.asin} piece={piece} />
-              </Col>
-            ))}
-        </Row>
-      </Container> */}
     </>
-  ); //FINE FORM ORIGINALE
+  );
 }
 
 export default PortfolioForm;

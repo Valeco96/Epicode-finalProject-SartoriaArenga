@@ -9,7 +9,6 @@ export function generateJWT(payload) {
       { expiresIn: process.env.JWT_EXPIRESIN },
       (error, token) => {
         if (error) {
-          console.error("Errore nella generazione del token", error);
           reject(error);
         } else {
           resolve(token);
@@ -24,7 +23,6 @@ export function verifyJWT(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
       if (error) {
-        console.error("Token non valido o scaduto", error.message);
         reject(error);
       } else {
         resolve(decoded);

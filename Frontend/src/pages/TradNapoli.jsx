@@ -1,7 +1,5 @@
-import { Container } from "react-bootstrap";
 import { Link } from "react-router";
-import destrutturata from "../assets/destrutturata.JPG";
-import spallaRollino from "../assets/spalla-rollino.jpeg";
+
 
 function TradNapoli() {
   return (

@@ -3,22 +3,6 @@ import "dotenv/config";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-//Funzione generica di invio con logging degli errori
-// async function safeSend(msg, templateName) {
-//   try {
-//     await sgMail.send(msg);
-//     console.log(`Email ${templateName} inviata a ${msg.to}`);
-//   } catch (error) {
-//     console.error(`Errore nell'invio dell'email ${templateName} a ${msg.to}`);
-//     //Se Sendgrid restituisce una risposta HTTP
-//     if (error.response) {
-//       console.error("Dettagli SendGrid:", error.response.body);
-//     } else {
-//       console.error("Errore generico:", error.message);
-//     }
-//   }
-// }
-
 //Email di conferma invio prenotazione lato cliente
 export async function sendReceivedBooking({ to, name, date, service }) {
   const msg = {

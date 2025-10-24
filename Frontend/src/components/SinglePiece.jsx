@@ -1,13 +1,8 @@
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import { Link } from "react-router";
-import BookingForm from "./BookingForm";
-import "./components.css";
 import { Button } from "react-bootstrap";
+import "./components.css";
 
 function SinglePiece({ piece, onClick }) {
-  //Mostra l'immagine principale se é un array
+  //Mostra l'immagine principale se è  un array
   const previewImage = Array.isArray(piece.image)
     ? piece.image[0]
     : piece.image;

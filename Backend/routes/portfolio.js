@@ -14,7 +14,7 @@ import { isAdmin } from "../middlewares/isAdmin.js";
 const portfolioRouter = express.Router();
 
 //Rotte pubbliche
-portfolioRouter.get("/", getAllPieces); // lista (supporta query: category, page, limit, search)
+portfolioRouter.get("/", getAllPieces);
 portfolioRouter.get("/:id", getSinglePiece);
 
 //Rotte private (admin)

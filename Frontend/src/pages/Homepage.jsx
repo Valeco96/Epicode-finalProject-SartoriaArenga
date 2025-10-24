@@ -1,12 +1,8 @@
 import BookingForm from "../components/BookingForm";
 import { Link } from "react-router";
-import coverPortfolio from "../assets/cover-portfolio.JPG";
 import logoTrasparenteBianco from "../assets/logo-bianco.png";
-import jacketSide from "../assets/home-side.jpeg";
-import "./pages.css";
-import { Container } from "react-bootstrap";
-import andrea from "../assets/Andrea-1.JPG";
 import { useEffect, useRef, useState } from "react";
+import "./pages.css";
 
 function Homepage() {
   const formRef = useRef(null);
@@ -22,10 +18,10 @@ function Homepage() {
         const [entry] = entries;
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); //smetti di osservare dopo la prima volta
+          observer.disconnect(); //Fa in modo che non osservi il comando dopo il primo utilizzo
         }
       },
-      { threshold: 0.2 } // visiblile quando il 20% del form é nello schermo
+      { threshold: 0.2 } // Visiblile quando il 20% del form é nello schermo
     );
     if (formRef.current) observer.observe(formRef.current);
 

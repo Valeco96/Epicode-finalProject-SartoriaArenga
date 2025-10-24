@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SinglePiece from "../components/SinglePiece";
-import "./pages.css";
-import { Modal } from "react-bootstrap";
 import { getAllPieces } from "../data/portfolio";
+import "./pages.css";
 
 function PortfolioPage() {
   const [pieces, setPieces] = useState([]);
@@ -49,16 +48,15 @@ function PortfolioPage() {
 
   //Fetch dati dal portfolio
   useEffect(() => {
-    console.log("Fetching pieces..");
     let isMounted = true;
 
     async function fetchPieces() {
       try {
         const piecesFromApi = await getAllPieces();
-        console.log("Pieces fetched from API:", piecesFromApi);
+        
         if (isMounted) setPieces(piecesFromApi);
       } catch (error) {
-        console.error("Errore nel fetch dei lavori:", error);
+        
         setError("Errore nel recupero dei lavori.");
       }
     }
@@ -70,7 +68,7 @@ function PortfolioPage() {
 
   //Filtro combinato
   const filteredPieces = pieces.filter((p) => {
-    //console.log(p.category, selectedCategory);
+    
     const matchCategory =
       selectedCategory === "Tutte" ||
       (Array.isArray(p.category) &&
@@ -101,6 +99,7 @@ function PortfolioPage() {
   return (
     <>
       <div className="container py-5" style={{ color: "#141f36" }}>
+
         {/*Header*/}
         <div className="text-center mb-5">
           <h1 className="display-5 fw-bold mb-3 big-title">Collezione</h1>
@@ -111,6 +110,7 @@ function PortfolioPage() {
             </em>
           </p>
         </div>
+
         {/*Filtri*/}
         <div className="portfolio-filter-parent mb-5">
           <select
@@ -166,45 +166,7 @@ function PortfolioPage() {
             <option value="inverno">Inverno</option>
           </select>
         </div>
-        {/* <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
-          {colors.map((col) => (
-            <button
-              key={col}
-              onClick={() => setSelectedColor(col)}
-              className={`btn ${
-                selectedColor === col ? "btn-dark" : "btn-outline-secondary"
-              }`}
-            >
-              {col.charAt(0).toUpperCase() + col.slice(1)}
-            </button>
-          ))}
-        </div>
-        <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
-          {fabrics.map((fab) => (
-            <button
-              key={fab}
-              onClick={() => setSelectedFabric(fab)}
-              className={`btn ${
-                selectedFabric === fab ? "btn-dark" : "btn-outline-secondary"
-              }`}
-            >
-              {fab.charAt(0).toUpperCase() + fab.slice(1)}
-            </button>
-          ))}
-        </div>
-        <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
-          {seasons.map((sea) => (
-            <button
-              key={sea}
-              onClick={() => setSelectedSeason(sea)}
-              className={`btn ${
-                selectedSeason === sea ? "btn-dark" : "btn-outline-secondary"
-              }`}
-            >
-              {sea.charAt(0).toUpperCase() + sea.slice(1)}
-            </button>
-          ))}
-        </div> */}
+      
         {/*Griglia lavori*/}
         <div id="cards-container" className="row g-4 mb-5 mt-2">
           <AnimatePresence>
@@ -225,65 +187,14 @@ function PortfolioPage() {
             ))}
           </AnimatePresence>
         </div>
+        
         {/*Nessun risultato*/}
         {filteredPieces.length === 0 && (
           <p className="text-center text-muted mt-4">
             Nessun lavoro trovato per questa categoria.
           </p>
         )}
-        {/* Modal con Carosello
-        <Modal
-          show={!!selectedPiece}
-          onHide={() => setSelectedPiece(null)}
-          centered
-          size="lg"
-        >
-          {selectedPiece && (
-            <>
-              <Modal.Header closeButton>
-                <Modal.Title>{selectedPiece.title}</Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body>
-                {Array.isArray(selectedPiece.image) ? (
-                  <Carousel>
-                    {selectedPiece.image.map((img, index) => (
-                      <Carousel.Item key={index}>
-                        <img
-                          src={img}
-                          alt={`${selectedPiece.title} ${index + 1}`}
-                          className="d-block w-100 rounded"
-                        />
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
-                ) : (
-                  <img
-                    src={selectedPiece.image}
-                    alt={selectedPiece.title}
-                    className="img-fluid rounded mb-3"
-                  />
-                )}
-
-                <div className="mt-3">
-                  <p className="text-muted">{selectedPiece.description}</p>
-                  <p>
-                    <strong>Categoria:</strong> {selectedPiece.category}
-                  </p>
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button
-                  variant="secondary"
-                  onClick={() => setSelectedPiece(null)}
-                >
-                  Chiudi
-                </Button>
-              </Modal.Footer>
-            </>
-          )}
-        </Modal> */}
+        
       </div>
     </>
   );

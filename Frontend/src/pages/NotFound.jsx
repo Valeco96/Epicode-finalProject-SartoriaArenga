@@ -5,7 +5,6 @@ function NotFound() {
   return (
     <>
       <div className="main m-5">
-        {" "}
         <h1 className="p-4">Not Found - Error 404</h1>
         <p>
           Siamo spiacenti, il percorso selezionato non ha sezioni dedicate o non

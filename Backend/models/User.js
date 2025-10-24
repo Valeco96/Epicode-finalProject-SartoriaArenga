@@ -14,9 +14,8 @@ const userSchema = new Schema({
   isAdmin: { type: Boolean, default: false },
 });
 
-//struttura che si attiva ogni volta che sta per salvare, prima di fare save nel db attiva questa funzione
+//Struttura che si attiva ogni volta che sta per salvare, prima di fare save nel db attiva questa funzione
 userSchema.pre("save", async function (next) {
-  //prima controlliamo se il campo e' cambiato
   if (!this.isModified("password")) {
     return next();
   }

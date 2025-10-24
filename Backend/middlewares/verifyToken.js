@@ -19,7 +19,6 @@ export async function verifyToken(request, response, next) {
 
     next();
   } catch (error) {
-    console.error("Errore nell'autenticazione: ", error.message);
     response.status(401).json({ message: "Token non valido o scaduto" });
   }
 }

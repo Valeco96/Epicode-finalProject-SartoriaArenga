@@ -80,17 +80,3 @@ export const updateImage = async (id, imageFile, token) => {
   }
 };
 
-// export const updateImage = async (id, imageFile, token) => {
-//   try {
-//     const formData = new FormData();
-//     formData.append("image", imageFile);
-//     const response = await axios.patch(`/api/portfolio/${id}/image`, formData, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };

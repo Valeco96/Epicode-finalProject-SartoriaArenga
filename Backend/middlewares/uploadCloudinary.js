@@ -2,7 +2,6 @@ import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-//Con questo codice defininiamo la destinazione dei nostri file
 const storageCloudinary = new CloudinaryStorage({
   cloudinary,
   params: {

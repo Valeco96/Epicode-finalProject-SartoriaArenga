@@ -1,21 +1,18 @@
-//COMPONENTE CHE CONTIENE TUTTA LA PAGINA
-import { Col, Container, Row } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router";
 import PortfolioForm from "./components/PortfolioForm";
-import BookingForm from "./components/BookingForm";
 import Footer from "./components/Footer";
 import SNavbar from "./components/SNavbar";
 import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
 import PortfolioPage from "./pages/PortfolioPage";
 import About from "./pages/About";
-import "./App.css";
 import AdminPortfolio from "./pages/AdminPortfolio";
 import TradNapoli from "./pages/TradNapoli";
 import AdminBookings from "./pages/AdminBookings";
 import RichiediAppuntamento from "./pages/RichiediAppuntamento";
 import { AuthProvider } from "./context/AuthContext";
 import Login from "./pages/Login";
+import "./App.css";
 
 function App() {
   return (
@@ -38,7 +35,6 @@ function App() {
           <Route path="/prenotazioni" element={<AdminBookings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Container>{/*Footer*/}</Container>
         <Footer />
       </BrowserRouter>
     </AuthProvider>

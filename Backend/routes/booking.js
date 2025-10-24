@@ -8,22 +8,20 @@ import {
   getPastBookings,
   getSingleBooking,
   getUpcomingBookings,
-  updateBookingDate,
   updateBookingStatus,
 } from "../controllers/booking.js";
 
 const bookingRouter = express.Router();
 
 //Rotta pubblica
-bookingRouter.post("/", createBooking); // crea prenotazione (valida input, salva pending)
+bookingRouter.post("/", createBooking); 
 
 //Rotte private
-bookingRouter.get("/", verifyToken, isAdmin, getAllBookings); // lista prenotazioni (filtro per status, data, paginazione)
-bookingRouter.get("/upcoming", getUpcomingBookings); //Prenotazioni future
-bookingRouter.get("/past", getPastBookings); //Prenotazioni passate
-bookingRouter.get("/:id", verifyToken, isAdmin, getSingleBooking); // dettaglio prenotazione
-bookingRouter.patch("/:id/status", verifyToken, isAdmin, updateBookingStatus); // aggiorna stato o note parte admin
-//bookingRouter.patch("/:id/date", updateBookingDate); //aggiorna data appuntamento
-bookingRouter.delete("/:id", verifyToken, isAdmin, deleteBooking); // opzionale (soft delete o hard delete)
+bookingRouter.get("/", verifyToken, isAdmin, getAllBookings); 
+bookingRouter.get("/upcoming", getUpcomingBookings); 
+bookingRouter.get("/past", getPastBookings); 
+bookingRouter.get("/:id", verifyToken, isAdmin, getSingleBooking); 
+bookingRouter.patch("/:id/status", verifyToken, isAdmin, updateBookingStatus); 
+bookingRouter.delete("/:id", verifyToken, isAdmin, deleteBooking);
 
 export default bookingRouter;

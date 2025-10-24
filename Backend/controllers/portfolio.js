@@ -26,7 +26,6 @@ export async function getAllPieces(request, response) {
     }
     response.status(200).json(pieces);
   } catch (error) {
-    console.error("Errore nel recupero del portfolio:", error.message);
     response.status(500).json({
       message: "Errore nel recupero degli elementi del portfolio, ",
       error: error.message,
@@ -74,21 +73,7 @@ export async function createPiece(request, response) {
 
     const savedPiece = await newPiece.save();
     response.status(201).json(savedPiece);
-
-    console.log({
-      titolo,
-      descrizione,
-      categoria,
-      colore,
-      tessuto,
-      immagine,
-      cloudinaryId,
-    });
   } catch (error) {
-    console.error(
-      "Errore nella creazione di un nuovo elemento nel Portfolio",
-      error.message
-    );
     response
       .status(500)
       .json({ message: "Errore del server - creazione Portfolio" });
@@ -112,7 +97,6 @@ export async function getSinglePiece(request, response) {
 
     response.status(200).json(piece);
   } catch (error) {
-    console.error("Errore nel recupero del singolo lavoro:", error.message);
     response.status(500).json({
       message: "Errore nel recupero del lavoro",
       error: error.message,
@@ -128,14 +112,14 @@ export async function editPiece(request, response) {
       return response.status(404).json({ message: "ID non valido." });
     }
 
-    //Controllo che esista un body o un file
+    //Controlla che esista un body o un file
     if (!request.body && !request.file) {
       return response
         .status(400)
         .json({ message: "Nessun dato fornito per l'aggiornamento." });
     }
 
-    //Estraggo i dati solo se il body é definito
+    //Estrae i dati solo se il body é definito
     const {
       title = "",
       description = "",
@@ -145,13 +129,11 @@ export async function editPiece(request, response) {
       image = "",
     } = request.body || {};
 
-    //Se ho un file cloudinary prendo l'URL
+    //Se è un file Cloudinary prende l'URL
     const imageUrl =
       request.file?.path || (typeof image === "string" ? image.trim() : "");
-    console.log("request.file:", request.file);
-    console.log("request.body.image:", image);
 
-    //Creo l'oggetto di aggiornamento solo con i campi presenti
+    //Crea l'oggetto di aggiornamento solo con i campi presenti
     const updateData = {
       ...(title && { title: title.trim() }),
       ...(description && { description: description.trim() }),
@@ -161,7 +143,6 @@ export async function editPiece(request, response) {
       ...(imageUrl && { image: imageUrl }),
     };
 
-    //Con questo ora eseguo l'update
     const updatedPiece = await Portfolio.findByIdAndUpdate(
       id,
       updateData,
@@ -176,7 +157,6 @@ export async function editPiece(request, response) {
       .status(200)
       .json({ message: "Lavoro aggiornato con successo!", updatedPiece });
   } catch (error) {
-    console.error("Errore nella modifica del lavoro", error.message);
     response.status(500).json({
       message: "Errore del server - modifica del lavoro fallita",
       error: error.message,
@@ -198,7 +178,6 @@ export async function deletePiece(request, response) {
     }
     response.status(200).json(deletedPiece);
   } catch (error) {
-    console.error("Non é stato possibile eliminare il lavoro", error.message);
     response.status(500).json({
       message: "Errore del server - lavoro non eliminato correttamente",
       error: error.message,
@@ -238,7 +217,6 @@ export async function updateImage(request, response) {
       .status(200)
       .json({ message: "Immagine aggiornata con successo!", updatedPiece });
   } catch (error) {
-    console.error("Errore nell'aggiornamento dell'immagine:", error.message);
     response.status(500).json({
       message: "Errore del server durante l'aggiornamento dell'immagine",
       error: error.message,

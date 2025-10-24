@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import { login as loginUser } from "../data/auth";
+import { useNavigate } from "react-router";
 import { Form } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
 
@@ -16,23 +15,19 @@ function Login() {
     setError("");
 
     try {
-      await login(email, password);
+      login(email, password);
 
       navigate("/admin-storico-lavori");
-      console.log("Login effettuato con successo!");
       alert("Login effettuato.");
     } catch (error) {
       setError(error.message);
     }
   };
 
-  
-
   return (
     <>
       <div className="login-wrapper">
         <div className="login-container">
-          {" "}
           <h2 className="fw-bold mb-4">Accedi</h2>
           <Form onSubmit={handleSubmit}>
             <div className="my-3">

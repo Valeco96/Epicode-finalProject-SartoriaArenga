@@ -10,13 +10,13 @@ function Footer() {
             <ul>
               <li>Vico Lungo del Gelso 66, Napoli - Italia</li>
               <li>
-                Email:{" "}
+                Email:
                 <a href="mailto:sartoria.arenga@gmail">
                   sartoria.arenga@gmail.com
                 </a>
               </li>
               <li>
-                Tel: <a href="tel:+393335603412">0039 333 5603412</a>
+                Whatsapp: <a href="tel:+393335603412">0039 333 5603412</a>
               </li>
             </ul>
           </div>
@@ -31,7 +31,6 @@ function Footer() {
           <div>
             <h3>Social Network</h3>
             <ul>
-              <li>Facebook</li>
               <li>
                 <a
                   href="https://www.instagram.com/sartoria_arenga/"

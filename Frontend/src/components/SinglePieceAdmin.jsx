@@ -1,8 +1,8 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import "./components.css";
 import { useEffect, useState } from "react";
 import { deletePiece } from "../data/portfolio";
+import "./components.css";
 
 function SinglePieceAdmin({ piece, onClick }) {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function SinglePieceAdmin({ piece, onClick }) {
   }, [isDeleted, navigate]);
 
   const handleEdit = () => {
-    navigate(`/PortfolioForm/${piece._id}`); //naviga al form per modificare il post
+    navigate(`/PortfolioForm/${piece._id}`); //Naviga al form per modificare il post
   };
 
   const handleDelete = async () => {
@@ -30,7 +30,6 @@ function SinglePieceAdmin({ piece, onClick }) {
         alert("Errore nell'eliminazione del lavoro.");
       }
     } catch (error) {
-      console.error(error);
       alert("Errore nella richiesta di eliminazione del lavoro.");
     }
   };
