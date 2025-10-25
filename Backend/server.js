@@ -10,8 +10,15 @@ import globalErrors from "./middlewares/globalErrors.js";
 
 const server = express(); // creo il server base
 const port = process.env.PORT || 2000;
+const corsOptions = {
+  origin: [
+    "http://localhost:5173", // per sviluppo
+    "https://sartoria-arenga.netlify.app", // dominio Netlify
+  ],
+  credentials: true,
+};
 
-server.use(cors()); // accetta richieste da qualsiasi indirizzo - non specificato
+server.use(cors(corsOptions));
 server.use(morgan("tiny"));
 server.use(express.json()); // per gestire i body di tipo json
 
@@ -26,5 +33,9 @@ await mongoose
   .connect(process.env.MONGODB_CONNECTION_URI)
   .then(() => console.log("Connesso al database."))
   .catch((error) => console.log(error));
+
+server.get("/", (request, response) => {
+  response.send("Server online!");
+});
 
 server.listen(port, () => console.log(`Server avviato sulla porta ${port}`)); // il server é in ascolto di richieste alla porta indicata
